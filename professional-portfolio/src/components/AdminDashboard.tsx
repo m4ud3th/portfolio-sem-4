@@ -9,6 +9,14 @@ import type { Database } from '@/lib/types/database.types';
 
 type Project = Database['public']['Tables']['projects']['Row'];
 
+// Define proper error type interface
+interface SupabaseError {
+  message?: string;
+  details?: string;
+  hint?: string;
+  code?: string;
+}
+
 interface AdminDashboardProps {
   user: User;
 }
@@ -171,17 +179,18 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
       console.error('Error keys:', Object.keys(error || {}));
       
       // Try to extract useful error information
+      const supabaseError = error as SupabaseError;
       if (error && typeof error === 'object') {
-        console.error('Error message:', (error as any).message);
-        console.error('Error details:', (error as any).details);
-        console.error('Error hint:', (error as any).hint);
-        console.error('Error code:', (error as any).code);
+        console.error('Error message:', supabaseError.message);
+        console.error('Error details:', supabaseError.details);
+        console.error('Error hint:', supabaseError.hint);
+        console.error('Error code:', supabaseError.code);
       }
       
       // Show user-friendly error message
-      const errorMessage = (error as any)?.message || 
-                          (error as any)?.details || 
-                          (error as any)?.hint || 
+      const errorMessage = supabaseError?.message || 
+                          supabaseError?.details || 
+                          supabaseError?.hint || 
                           'Unknown error occurred';
       alert(`Failed to save project: ${errorMessage}`);
     }
