@@ -156,7 +156,7 @@ export default function ContactForm() {
       {/* Status Messages */}
       {submitStatus === 'success' && (
         <div className="mt-6 p-4 bg-green-500/20 border border-green-500/30 rounded-lg text-green-300 text-center">
-          ✓ Thank you! Your message has been sent successfully. I'll get back to you soon!
+          ✓ Thank you! Your message has been sent successfully. I&apos;ll get back to you soon!
         </div>
       )}
 

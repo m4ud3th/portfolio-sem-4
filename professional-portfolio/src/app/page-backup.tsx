@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 export default function Home() {
   useEffect(() => {
@@ -66,7 +67,13 @@ export default function Home() {
                 <h4 className="font-semibold text-lg text-white tracking-wide">2B Green</h4>
               </div>
               <div className="w-full aspect-[4/3] bg-[#232842]/20 flex items-center justify-center overflow-hidden">
-                <img src="/images/2b-green.png" alt="Project preview" className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300" />
+                <Image 
+                  src="/images/2b-green.png" 
+                  alt="Project preview" 
+                  width={400}
+                  height={300}
+                  className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300" 
+                />
               </div>
               <div className="flex-1 flex flex-col items-start px-5 py-4 w-full">
                 <div className="border-b border-[#232842]/30 w-full mb-3" />

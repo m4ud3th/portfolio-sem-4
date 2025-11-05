@@ -142,7 +142,7 @@ export default function ProjectPage({ params }: ProjectPageProps) {
                 height={600}
                 className="w-full h-auto object-cover"
                 priority
-                onError={(e) => {
+                onError={() => {
                   console.error('Image failed to load:', project.image_url);
                 }}
               />
