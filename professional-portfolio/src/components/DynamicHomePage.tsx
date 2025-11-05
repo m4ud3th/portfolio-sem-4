@@ -177,7 +177,7 @@ export default function DynamicHomePage({ projects: initialProjects }: DynamicHo
             {displayProjects.map((project, index) => (
               <div 
                 key={project.id} 
-                className="rounded-2xl overflow-hidden shadow-xl border border-[#232842]/30 bg-[#181b23] flex flex-col h-full transition-all duration-300 hover:scale-[1.025] hover:shadow-2xl hover:border-[#6a5cff]/30 group animate-fade-in-up cursor-pointer"
+                className="rounded-2xl overflow-hidden shadow-2xl border border-white/10 bg-white/5 backdrop-blur-lg flex flex-col h-full transition-all duration-300 hover:scale-[1.025] hover:shadow-[0_20px_50px_rgba(106,92,255,0.3)] hover:border-[#6a5cff]/40 hover:bg-white/10 group animate-fade-in-up cursor-pointer"
                 style={{animationDelay: `${0.1 * index}s`}}
                 onClick={(e) => {
                   // Only navigate if the click wasn't on a button or link
@@ -189,7 +189,7 @@ export default function DynamicHomePage({ projects: initialProjects }: DynamicHo
               >
                 {/* Card Header with Icon - Fixed Height */}
                 <div className="flex items-center gap-2 px-5 pt-5 pb-3 w-full h-[5rem]">
-                  <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-[#232842]/40 text-[#6a5cff] text-lg font-bold shadow-sm group-hover:bg-[#6a5cff]/20 group-hover:scale-110 transition-all duration-300 flex-shrink-0">
+                  <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-[#6a5cff] text-lg font-bold shadow-sm group-hover:bg-[#6a5cff]/30 group-hover:scale-110 transition-all duration-300 flex-shrink-0">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 3.75v16.5m-9-16.5v16.5M3.75 7.5h16.5m-16.5 9h16.5" />
                     </svg>
@@ -199,7 +199,7 @@ export default function DynamicHomePage({ projects: initialProjects }: DynamicHo
                   </div>
                 </div>
                 {/* Image Section - Fixed Height */}
-                <div className="w-full h-[200px] bg-[#232842]/20 flex items-center justify-center overflow-hidden relative">
+                <div className="w-full h-[200px] bg-white/5 backdrop-blur-sm flex items-center justify-center overflow-hidden relative border-y border-white/10">
                   <Image
                     src={getValidImageUrl(project.image_url)} 
                     alt={`${project.title} preview`} 
@@ -207,7 +207,7 @@ export default function DynamicHomePage({ projects: initialProjects }: DynamicHo
                     height={200}
                     className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-500" 
                   />
-                  <div className="absolute inset-0 bg-[#6a5cff]/0 group-hover:bg-[#6a5cff]/10 transition-all duration-300"></div>
+                  <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/20 group-hover:from-[#6a5cff]/10 group-hover:to-[#6a5cff]/5 transition-all duration-300"></div>
                 </div>
                 <div className="flex-1 flex flex-col items-start px-5 py-4 w-full">
                   <div className="border-b border-[#232842]/30 w-full mb-3" />
@@ -223,7 +223,7 @@ export default function DynamicHomePage({ projects: initialProjects }: DynamicHo
                         {project.technologies.map((tech, index) => (
                           <span 
                             key={index} 
-                            className="px-2 py-1 bg-[#232842]/40 text-gray-300 text-xs rounded hover:bg-[#6a5cff]/20 hover:text-[#6a5cff] transition-all duration-200 cursor-default"
+                            className="px-2 py-1 bg-white/10 backdrop-blur-sm border border-white/20 text-gray-300 text-xs rounded hover:bg-[#6a5cff]/30 hover:text-white hover:border-[#6a5cff]/50 transition-all duration-200 cursor-default"
                             style={{animationDelay: `${0.1 * index}s`}}
                           >
                             {tech}
@@ -236,7 +236,7 @@ export default function DynamicHomePage({ projects: initialProjects }: DynamicHo
                   <div className="flex gap-2 w-full">
                     <Link
                       href={getProjectUrl(project)}
-                      className="flex-1 text-center border border-[#6a5cff] text-white font-medium rounded px-3 py-2 bg-[#232842]/30 hover:bg-[#6a5cff]/67 hover:text-white hover:scale-105 transition-all duration-200 text-sm shadow-sm tracking-wide cursor-pointer"
+                      className="flex-1 text-center border border-[#6a5cff]/50 text-white font-medium rounded px-3 py-2 bg-white/10 backdrop-blur-sm hover:bg-[#6a5cff]/60 hover:text-white hover:scale-105 hover:border-[#6a5cff] transition-all duration-200 text-sm shadow-sm tracking-wide cursor-pointer"
                       onClick={(e) => e.stopPropagation()}
                     >
                       View Details
@@ -244,7 +244,7 @@ export default function DynamicHomePage({ projects: initialProjects }: DynamicHo
                     {project.project_url && project.project_url !== '#' && (
                       <a
                         href={project.project_url}
-                        className="flex-1 text-center border border-green-500 text-green-300 font-medium rounded px-3 py-2 bg-[#232842]/30 hover:bg-green-600 hover:text-white hover:scale-105 transition-all duration-200 text-sm shadow-sm tracking-wide cursor-pointer"
+                        className="flex-1 text-center border border-green-500/50 text-green-300 font-medium rounded px-3 py-2 bg-white/10 backdrop-blur-sm hover:bg-green-500/60 hover:text-white hover:scale-105 hover:border-green-400 transition-all duration-200 text-sm shadow-sm tracking-wide cursor-pointer"
                         target="_blank"
                         rel="noopener noreferrer"
                         onClick={(e) => e.stopPropagation()}
@@ -255,7 +255,7 @@ export default function DynamicHomePage({ projects: initialProjects }: DynamicHo
                     {project.github_url && (
                       <a
                         href={project.github_url}
-                        className="flex-1 text-center border border-gray-500 text-gray-300 font-medium rounded px-3 py-2 bg-[#232842]/30 hover:bg-gray-600 hover:text-white hover:scale-105 transition-all duration-200 text-sm shadow-sm tracking-wide cursor-pointer"
+                        className="flex-1 text-center border border-gray-500/50 text-gray-300 font-medium rounded px-3 py-2 bg-white/10 backdrop-blur-sm hover:bg-gray-500/60 hover:text-white hover:scale-105 hover:border-gray-400 transition-all duration-200 text-sm shadow-sm tracking-wide cursor-pointer"
                         target="_blank"
                         rel="noopener noreferrer"
                         onClick={(e) => e.stopPropagation()}
