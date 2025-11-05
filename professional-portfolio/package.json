@@ -11,7 +11,9 @@
   "dependencies": {
     "@supabase/ssr": "^0.7.0",
     "@supabase/supabase-js": "^2.76.1",
+    "@types/nodemailer": "^7.0.3",
     "next": "15.5.3",
+    "nodemailer": "^7.0.10",
     "react": "19.1.0",
     "react-dom": "19.1.0"
   },

@@ -49,7 +49,7 @@ export default function DynamicHomePage({ projects: initialProjects }: DynamicHo
   useEffect(() => {
     if (typeof window !== "undefined") {
       const hash = window.location.hash;
-      if (hash === "#work" || hash === "#contact") {
+      if (hash === "#work") {
         const el = document.getElementById(hash.substring(1));
         if (el) {
           const headerHeight = 80; // Approximate header height
@@ -135,7 +135,7 @@ export default function DynamicHomePage({ projects: initialProjects }: DynamicHo
         <nav className="flex items-center gap-6">
           <WorkScrollButton />
           <a
-            href="#contact"
+            href="/contact"
             className="text-white bg-transparent rounded px-5 py-2 font-bold text-lg hover:text-[#6a5cff] hover:bg-[#232842]/30 hover:scale-105 transition-all duration-200 shadow-sm tracking-wide cursor-pointer"
           >
             Contact
@@ -346,21 +346,7 @@ function ContactScrollButton() {
   const router = useRouter();
   function handleClick(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
-    if (window.location.pathname === "/") {
-      const el = document.getElementById("contact");
-      if (el) {
-        const headerHeight = 80; // Approximate header height
-        const elementPosition = el.offsetTop;
-        const offsetPosition = elementPosition - headerHeight;
-        
-        window.scrollTo({
-          top: offsetPosition,
-          behavior: "smooth"
-        });
-      }
-    } else {
-      router.push("/#contact");
-    }
+    router.push("/contact");
   }
   return (
     <button
