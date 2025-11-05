@@ -26,6 +26,7 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
     github_url: '',
     technologies: '',
     featured: false,
+    project_date: '',
   });
   const router = useRouter();
   
@@ -94,6 +95,7 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
       github_url: '',
       technologies: '',
       featured: false,
+      project_date: '',
     });
     setEditingProject(null);
     setShowForm(false);
@@ -102,32 +104,86 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
+    if (!supabase) {
+      console.error('Supabase client not available');
+      return;
+    }
+    
     const projectData = {
       ...formData,
       technologies: formData.technologies.split(',').map(tech => tech.trim()).filter(Boolean),
       user_id: user.id,
+      // Ensure project_date has a default value if empty
+      project_date: formData.project_date.trim() || 'No date specified'
     };
+
+    console.log('Attempting to save project data:', projectData);
+    console.log('Form data before processing:', formData);
+    
+    // Validate required fields
+    if (!formData.title.trim() || !formData.description.trim()) {
+      alert('Please fill in the title and description fields');
+      return;
+    }
 
     try {
       if (editingProject) {
-        const { error } = await supabase
+        const { data, error } = await supabase
           .from('projects')
           .update(projectData)
-          .eq('id', editingProject.id);
+          .eq('id', editingProject.id)
+          .select()
+          .single();
         
-        if (error) throw error;
+        if (error) {
+          console.error('Update error details:', error);
+          console.error('Error message:', error.message);
+          console.error('Error code:', error.code);
+          console.error('Error details:', error.details);
+          console.error('Error hint:', error.hint);
+          throw error;
+        }
+        console.log('Project updated successfully:', data);
       } else {
-        const { error } = await supabase
+        const { data, error } = await supabase
           .from('projects')
-          .insert([projectData]);
+          .insert([projectData])
+          .select()
+          .single();
         
-        if (error) throw error;
+        if (error) {
+          console.error('Insert error details:', error);
+          console.error('Error message:', error.message);
+          console.error('Error code:', error.code);
+          console.error('Error details:', error.details);
+          console.error('Error hint:', error.hint);
+          throw error;
+        }
+        console.log('Project created successfully:', data);
       }
 
       await fetchProjects();
       resetForm();
+      alert(editingProject ? 'Project updated successfully!' : 'Project created successfully!');
     } catch (error) {
       console.error('Error saving project:', error);
+      console.error('Error type:', typeof error);
+      console.error('Error keys:', Object.keys(error || {}));
+      
+      // Try to extract useful error information
+      if (error && typeof error === 'object') {
+        console.error('Error message:', (error as any).message);
+        console.error('Error details:', (error as any).details);
+        console.error('Error hint:', (error as any).hint);
+        console.error('Error code:', (error as any).code);
+      }
+      
+      // Show user-friendly error message
+      const errorMessage = (error as any)?.message || 
+                          (error as any)?.details || 
+                          (error as any)?.hint || 
+                          'Unknown error occurred';
+      alert(`Failed to save project: ${errorMessage}`);
     }
   };
 
@@ -140,6 +196,7 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
       github_url: project.github_url || '',
       technologies: project.technologies.join(', '),
       featured: project.featured,
+      project_date: project.project_date || '',
     });
     setEditingProject(project);
     setShowForm(true);
@@ -147,6 +204,11 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
 
   const handleDelete = async (id: string) => {
     if (!confirm('Are you sure you want to delete this project?')) return;
+    
+    if (!supabase) {
+      console.error('Supabase client not available');
+      return;
+    }
 
     try {
       const { error } = await supabase
@@ -276,6 +338,17 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
                     className="w-full px-4 py-3 bg-[#232842]/30 border border-[#232842] rounded-lg text-white placeholder-gray-400 focus:border-[#6a5cff] focus:outline-none"
                   />
                 </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">Project Date</label>
+                <input
+                  type="text"
+                  value={formData.project_date}
+                  onChange={(e) => setFormData({...formData, project_date: e.target.value})}
+                  placeholder="e.g., March 2024"
+                  className="w-full px-4 py-3 bg-[#232842]/30 border border-[#232842] rounded-lg text-white placeholder-gray-400 focus:border-[#6a5cff] focus:outline-none"
+                />
               </div>
 
               <div className="flex items-center">

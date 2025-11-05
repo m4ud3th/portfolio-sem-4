@@ -75,6 +75,7 @@ export default function DynamicHomePage({ projects: initialProjects }: DynamicHo
     github_url: null,
     technologies: ['React', 'TypeScript', 'Tailwind'],
     featured: true,
+    project_date: 'March 2024',
     created_at: '',
     updated_at: '',
     user_id: ''
@@ -211,6 +212,16 @@ export default function DynamicHomePage({ projects: initialProjects }: DynamicHo
                 </div>
                 <div className="flex-1 flex flex-col items-start px-5 py-4 w-full">
                   <div className="border-b border-[#232842]/30 w-full mb-3" />
+                  
+                  {/* Project Date */}
+                  {project.project_date && (
+                    <div className="mb-2">
+                      <span className="inline-block px-2 py-1 bg-[#232842]/60 text-gray-400 text-xs rounded font-medium tracking-wide">
+                        {project.project_date}
+                      </span>
+                    </div>
+                  )}
+                  
                   {/* Description - Fixed Height */}
                   <div className="h-[4.2rem] mb-3">
                     <p className="text-gray-300 text-sm line-clamp-3">{truncateDescription(project.description)}</p>

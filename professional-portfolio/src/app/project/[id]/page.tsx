@@ -125,11 +125,18 @@ export default function ProjectPage({ params }: ProjectPageProps) {
             <h1 className="text-4xl md:text-5xl font-black text-white mb-4 tracking-widest uppercase">
               {project.title}
             </h1>
-            {project.featured && (
-              <span className="inline-block px-4 py-2 bg-[#6a5cff] text-white text-sm rounded-full font-bold uppercase tracking-wide">
-                Featured Project
-              </span>
-            )}
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-4">
+              {project.featured && (
+                <span className="inline-block px-4 py-2 bg-[#6a5cff] text-white text-sm rounded-full font-bold uppercase tracking-wide">
+                  Featured Project
+                </span>
+              )}
+              {project.project_date && (
+                <span className="inline-block px-4 py-2 bg-[#232842]/60 text-gray-300 text-sm rounded-full font-medium tracking-wide">
+                  {project.project_date}
+                </span>
+              )}
+            </div>
           </div>
 
           {/* Project Image */}

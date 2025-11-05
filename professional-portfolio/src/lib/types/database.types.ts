@@ -19,6 +19,7 @@ export type Database = {
           github_url: string | null
           technologies: string[]
           featured: boolean
+          project_date: string
           created_at: string
           updated_at: string
           user_id: string
@@ -32,6 +33,7 @@ export type Database = {
           github_url?: string | null
           technologies?: string[]
           featured?: boolean
+          project_date?: string
           created_at?: string
           updated_at?: string
           user_id: string
@@ -45,6 +47,7 @@ export type Database = {
           github_url?: string | null
           technologies?: string[]
           featured?: boolean
+          project_date?: string
           created_at?: string
           updated_at?: string
           user_id?: string
