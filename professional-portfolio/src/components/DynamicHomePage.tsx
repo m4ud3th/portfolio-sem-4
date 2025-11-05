@@ -252,17 +252,6 @@ export default function DynamicHomePage({ projects: initialProjects }: DynamicHo
                     >
                       View Details
                     </Link>
-                    {project.project_url && project.project_url !== '#' && (
-                      <a
-                        href={project.project_url}
-                        className="flex-1 text-center border border-green-500/50 text-green-300 font-medium rounded px-3 py-2 bg-white/10 backdrop-blur-sm hover:bg-green-500/60 hover:text-white hover:scale-105 hover:border-green-400 transition-all duration-200 text-sm shadow-sm tracking-wide cursor-pointer"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        Live Demo
-                      </a>
-                    )}
                     {project.github_url && (
                       <a
                         href={project.github_url}
