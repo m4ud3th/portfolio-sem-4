@@ -274,13 +274,13 @@ export default function DynamicHomePage({ projects: initialProjects }: DynamicHo
         <section id="contact" className="mt-20 text-center">
           <div className="animate-fade-in-up">
             <h3 className="text-3xl font-black mb-6 text-white tracking-widest uppercase hover:text-[#6a5cff] transition-colors duration-300">Contact</h3>
-            <p className="text-gray-300 mb-6 text-lg">Want to connect or collaborate? Send me an email!</p>
-            <a
-              href="mailto:maudeth4@gmail.com"
+            <p className="text-gray-300 mb-6 text-lg">Want to connect or collaborate? Send me a message!</p>
+            <Link
+              href="/contact"
               className="inline-block px-8 py-3 rounded border-2 border-[#6a5cff] text-white font-bold bg-[#232842]/40 hover:bg-[#6a5cff]/67 hover:text-white hover:scale-105 transition-all duration-200 text-lg shadow-lg tracking-wide uppercase cursor-pointer"
             >
-              Email Me
-            </a>
+              Get In Touch
+            </Link>
           </div>
         </section>
       </main>

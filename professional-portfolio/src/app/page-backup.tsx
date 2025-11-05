@@ -2,6 +2,7 @@
 import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
   useEffect(() => {
@@ -95,13 +96,13 @@ export default function Home() {
         {/* Contact Section */}
         <section id="contact" className="mt-20 text-center">
           <h3 className="text-3xl font-black mb-6 text-white tracking-widest uppercase">Contact</h3>
-          <p className="text-gray-300 mb-6 text-lg">Want to connect or collaborate? Send me an email!</p>
-          <a
-            href="mailto:maudeth4@gmail.com"
+          <p className="text-gray-300 mb-6 text-lg">Want to connect or collaborate? Send me a message!</p>
+          <Link
+            href="/contact"
             className="inline-block px-8 py-3 rounded border-2 border-[#6a5cff] text-white font-bold bg-[#232842]/40 hover:bg-[#6a5cff]/67 hover:text-white transition-all text-lg shadow-lg tracking-wide uppercase cursor-pointer"
           >
-            Email Me
-          </a>
+            Get In Touch
+          </Link>
         </section>
       </main>
 
