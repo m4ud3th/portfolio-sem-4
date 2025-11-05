@@ -16,13 +16,14 @@ export default function ContactPage() {
       </div>
       
       {/* Header */}
-      <header className="w-full bg-black/90 backdrop-blur-sm flex items-center justify-between px-8 py-6 border-b-2 border-[#232842] z-20 relative shadow-xl tracking-widest">
+      <header className="w-full bg-black/90 backdrop-blur-sm flex items-center justify-between px-4 md:px-8 py-6 border-b-2 border-[#232842] z-20 relative shadow-xl tracking-widest">
         <Link
           href="/"
           className="text-3xl md:text-4xl font-black text-white select-none tracking-widest drop-shadow-lg hover:text-[#6a5cff] transition-colors duration-200 cursor-pointer"
           style={{ fontFamily: 'var(--font-geist-sans)' }}
         >
-          M Kusters
+          <span className="block sm:hidden">MK</span>
+          <span className="hidden sm:block">M Kusters</span>
         </Link>
         <Link
           href="/"
@@ -33,7 +34,7 @@ export default function ContactPage() {
       </header>
 
       {/* Contact Content */}
-      <main className="flex-1 w-full max-w-4xl mx-auto px-4 py-10 relative z-10">
+      <main className="flex-1 w-full max-w-4xl mx-auto px-6 md:px-4 py-10 relative z-10">
         <div className="bg-white/5 backdrop-blur-lg rounded-2xl border border-white/10 p-8 shadow-2xl">
           {/* Page Header */}
           <div className="text-center mb-12">

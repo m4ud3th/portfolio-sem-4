@@ -128,7 +128,7 @@ export default function DynamicHomePage({ projects: initialProjects }: DynamicHo
       </div>
       
       {/* Bold Band-style Header */}
-      <header className="w-full bg-black/90 backdrop-blur-sm flex items-center justify-between px-8 py-6 border-b-2 border-[#232842] z-20 relative shadow-xl tracking-widest">
+      <header className="w-full bg-black/90 backdrop-blur-sm flex items-center justify-between px-4 md:px-8 py-6 border-b-2 border-[#232842] z-20 relative shadow-xl tracking-widest">
         <div className="flex items-center">
           <HomeNavButton />
         </div>
@@ -144,7 +144,7 @@ export default function DynamicHomePage({ projects: initialProjects }: DynamicHo
       </header>
 
       {/* Hero Section - Big, Centered, Band-like */}
-      <section className="flex flex-col items-center justify-center text-center w-full pt-24 pb-20 relative z-10 border-b-2 border-[#232842]/40 bg-gradient-to-b from-black/90 via-[#181b23]/80 to-transparent">
+      <section className="flex flex-col items-center justify-center text-center w-full pt-24 pb-20 px-6 md:px-4 relative z-10 border-b-2 border-[#232842]/40 bg-gradient-to-b from-black/90 via-[#181b23]/80 to-transparent">
         <div className="animate-fade-in-up">
           <h1 className="text-5xl md:text-6xl font-black text-white mb-4 tracking-widest drop-shadow-xl uppercase hover:text-[#6a5cff] transition-colors duration-300" style={{ fontFamily: 'var(--font-geist-sans)' }}>
             Maud Kusters
@@ -157,7 +157,7 @@ export default function DynamicHomePage({ projects: initialProjects }: DynamicHo
             <span className="inline-block">Student</span>
           </h2>
         </div>
-        <div className="animate-fade-in-up max-w-2xl mx-auto" style={{animationDelay: '0.4s'}}>
+        <div className="animate-fade-in-up max-w-2xl mx-auto px-4" style={{animationDelay: '0.4s'}}>
           <p className="text-lg text-gray-300 mb-8 leading-relaxed">
             Hi! I&apos;m Maud, a college student passionate about web development and digital design. Here you&apos;ll find a selection of my projects. I&apos;m always learning and excited to take on new challenges.
           </p>
@@ -168,7 +168,7 @@ export default function DynamicHomePage({ projects: initialProjects }: DynamicHo
       </section>
 
       {/* Projects Section - Merch Grid Inspired */}
-      <main className="flex-1 w-full max-w-6xl mx-auto px-4 py-10">
+      <main className="flex-1 w-full max-w-6xl mx-auto px-6 md:px-4 py-10">
         <section id="work" className="relative z-10">
           <div className="animate-fade-in-up">
             <h3 className="text-3xl font-black mb-10 text-white text-center tracking-widest uppercase border-b-2 border-[#232842]/40 pb-4 hover:text-[#6a5cff] transition-colors duration-300">Featured Projects</h3>
@@ -306,7 +306,8 @@ function HomeNavButton() {
       type="button"
       aria-label="Go to home page"
     >
-      M Kusters
+      <span className="block sm:hidden">MK</span>
+      <span className="hidden sm:block">M Kusters</span>
     </button>
   );
 }

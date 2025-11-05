@@ -100,13 +100,14 @@ export default function ProjectPage({ params }: ProjectPageProps) {
       <div className="pointer-events-none fixed inset-0 z-0 opacity-10 mix-blend-overlay" style={{backgroundImage: 'url(https://www.transparenttextures.com/patterns/diamond-upholstery.png), url(https://www.transparenttextures.com/patterns/grunge-wall.png)'}} />
       
       {/* Header */}
-      <header className="w-full bg-black/90 flex items-center justify-between px-8 py-6 border-b-2 border-[#232842] z-20 relative shadow-xl tracking-widest">
+      <header className="w-full bg-black/90 flex items-center justify-between px-4 md:px-8 py-6 border-b-2 border-[#232842] z-20 relative shadow-xl tracking-widest">
         <Link
           href="/"
           className="text-3xl md:text-4xl font-black text-white select-none tracking-widest drop-shadow-lg hover:text-[#6a5cff] transition-colors duration-200 cursor-pointer"
           style={{ fontFamily: 'var(--font-geist-sans)' }}
         >
-          M Kusters
+          <span className="block sm:hidden">MK</span>
+          <span className="hidden sm:block">M Kusters</span>
         </Link>
         <Link
           href="/"
@@ -117,7 +118,7 @@ export default function ProjectPage({ params }: ProjectPageProps) {
       </header>
 
       {/* Project Content */}
-      <main className="flex-1 w-full max-w-6xl mx-auto px-4 py-10 relative z-10">
+      <main className="flex-1 w-full max-w-6xl mx-auto px-6 md:px-4 py-10 relative z-10">
         <div className="bg-[#181b23] rounded-2xl border border-[#232842]/40 p-8 shadow-2xl">
           {/* Project Header */}
           <div className="text-center mb-8">
