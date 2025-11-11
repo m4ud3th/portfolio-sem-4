@@ -29,9 +29,16 @@ export async function POST(request: NextRequest) {
 
     // Check if environment variables are set
     if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
+      console.error('Email environment variables not configured');
+      console.error('Please set EMAIL_USER and EMAIL_PASS in Vercel environment variables');
+      
+      // Return a more user-friendly message
       return NextResponse.json(
-        { error: 'Email configuration not set up' },
-        { status: 500 }
+        { 
+          error: 'Email service temporarily unavailable',
+          message: 'Please contact me directly at maudeth4@gmail.com'
+        },
+        { status: 503 }
       );
     }
 

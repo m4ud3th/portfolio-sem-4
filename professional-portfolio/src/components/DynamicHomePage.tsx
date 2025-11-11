@@ -316,21 +316,7 @@ function WorkScrollButton() {
   const router = useRouter();
   function handleClick(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
-    if (window.location.pathname === "/") {
-      const el = document.getElementById("work");
-      if (el) {
-        const headerHeight = 80; // Approximate header height
-        const elementPosition = el.offsetTop;
-        const offsetPosition = elementPosition - headerHeight;
-        
-        window.scrollTo({
-          top: offsetPosition,
-          behavior: "smooth"
-        });
-      }
-    } else {
-      router.push("/#work");
-    }
+    router.push("/work");
   }
   return (
     <button
