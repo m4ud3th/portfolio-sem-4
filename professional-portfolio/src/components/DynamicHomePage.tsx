@@ -65,6 +65,74 @@ export default function DynamicHomePage({ projects: initialProjects }: DynamicHo
     }
   }, []);
 
+  // Auto-scroll to featured work when scrolling down from top, and back to top when scrolling up
+  useEffect(() => {
+    let lastScrollTop = 0;
+    let isAtTop = true;
+    let isAtWork = false;
+    let scrollTimeout: NodeJS.Timeout;
+
+    const handleScroll = () => {
+      const scrollTop = window.scrollY;
+      const heroSection = document.querySelector('section') as HTMLElement;
+      const heroHeight = heroSection?.offsetHeight || 600;
+      const workSection = document.getElementById('work');
+      const workTop = workSection?.offsetTop || 0;
+      const headerHeight = 80;
+      const workScrollPosition = workTop - headerHeight;
+
+      // Determine scroll direction
+      const scrollingDown = scrollTop > lastScrollTop;
+      lastScrollTop = scrollTop;
+
+      // Check if we're at the top (within 10px)
+      if (scrollTop <= 10) {
+        isAtTop = true;
+        isAtWork = false;
+      }
+      // Check if we're at the work section (within 10px of target position)
+      else if (Math.abs(scrollTop - workScrollPosition) <= 10) {
+        isAtTop = false;
+        isAtWork = true;
+      }
+      // If we were at top and now scrolling down, snap to work section
+      else if (isAtTop && scrollingDown && scrollTop > 10 && scrollTop < workScrollPosition) {
+        isAtTop = false;
+        
+        clearTimeout(scrollTimeout);
+        
+        scrollTimeout = setTimeout(() => {
+          if (workSection) {
+            window.scrollTo({
+              top: workScrollPosition,
+              behavior: 'smooth'
+            });
+          }
+        }, 50);
+      }
+      // If we're at work section and scrolling up, snap back to top
+      else if (isAtWork && !scrollingDown && scrollTop < workScrollPosition && scrollTop > 10) {
+        isAtWork = false;
+        
+        clearTimeout(scrollTimeout);
+        
+        scrollTimeout = setTimeout(() => {
+          window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+          });
+        }, 50);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      clearTimeout(scrollTimeout);
+    };
+  }, []);
+
   // Fallback static project if no dynamic projects
   const staticProject = {
     id: 'static-2b-green',
