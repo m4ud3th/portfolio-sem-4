@@ -65,64 +65,132 @@ export default function DynamicHomePage({ projects: initialProjects }: DynamicHo
     }
   }, []);
 
-  // Auto-scroll to featured work when scrolling down from top, and back to top when scrolling up
+  // Full-page snap scrolling between sections
   useEffect(() => {
     let lastScrollTop = 0;
-    let isAtTop = true;
-    let isAtWork = false;
+    let lastScrollTime = Date.now();
     let scrollTimeout: NodeJS.Timeout;
+    let isQuickScrolling = false;
+    let isScrolling = false;
+
+    const getSections = () => {
+      const headerHeight = 80;
+      const workSection = document.getElementById('work');
+      const contactSection = document.getElementById('contact');
+      
+      return [
+        { name: 'top', position: 0 },
+        { name: 'work', position: (workSection?.offsetTop || 0) - headerHeight },
+        { name: 'contact', position: (contactSection?.offsetTop || 0) - headerHeight }
+      ];
+    };
+
+    const getCurrentSection = (scrollTop: number) => {
+      const sections = getSections();
+      let currentSection = sections[0];
+      
+      for (const section of sections) {
+        if (scrollTop >= section.position - 100) {
+          currentSection = section;
+        }
+      }
+      
+      return currentSection;
+    };
+
+    const getNextSection = (scrollTop: number, scrollingDown: boolean) => {
+      const sections = getSections();
+      const currentSection = getCurrentSection(scrollTop);
+      const currentIndex = sections.findIndex(s => s.name === currentSection.name);
+      
+      if (scrollingDown && currentIndex < sections.length - 1) {
+        return sections[currentIndex + 1];
+      } else if (!scrollingDown && currentIndex > 0) {
+        return sections[currentIndex - 1];
+      }
+      
+      return currentSection;
+    };
 
     const handleScroll = () => {
+      if (isScrolling) return;
+
+      const currentTime = Date.now();
       const scrollTop = window.scrollY;
-      const heroSection = document.querySelector('section') as HTMLElement;
-      const heroHeight = heroSection?.offsetHeight || 600;
-      const workSection = document.getElementById('work');
-      const workTop = workSection?.offsetTop || 0;
-      const headerHeight = 80;
-      const workScrollPosition = workTop - headerHeight;
+
+      // Calculate scroll speed (pixels per millisecond)
+      const timeDiff = currentTime - lastScrollTime;
+      const scrollDiff = Math.abs(scrollTop - lastScrollTop);
+      const scrollSpeed = timeDiff > 0 ? scrollDiff / timeDiff : 0;
 
       // Determine scroll direction
       const scrollingDown = scrollTop > lastScrollTop;
-      lastScrollTop = scrollTop;
-
-      // Check if we're at the top (within 10px)
-      if (scrollTop <= 10) {
-        isAtTop = true;
-        isAtWork = false;
-      }
-      // Check if we're at the work section (within 10px of target position)
-      else if (Math.abs(scrollTop - workScrollPosition) <= 10) {
-        isAtTop = false;
-        isAtWork = true;
-      }
-      // If we were at top and now scrolling down, snap to work section
-      else if (isAtTop && scrollingDown && scrollTop > 10 && scrollTop < workScrollPosition) {
-        isAtTop = false;
-        
+      
+      // Detect quick scrolling (threshold: 2 pixels per millisecond)
+      if (scrollSpeed > 2) {
+        isQuickScrolling = true;
         clearTimeout(scrollTimeout);
-        
-        scrollTimeout = setTimeout(() => {
-          if (workSection) {
+      } else if (scrollSpeed < 0.5) {
+        isQuickScrolling = false;
+      }
+
+      lastScrollTop = scrollTop;
+      lastScrollTime = currentTime;
+
+      // Don't snap if user is quickly scrolling
+      if (isQuickScrolling) {
+        return;
+      }
+
+      // Clear existing timeout
+      clearTimeout(scrollTimeout);
+
+      // Set new timeout for smooth snap
+      scrollTimeout = setTimeout(() => {
+        if (!isQuickScrolling && !isScrolling) {
+          const sections = getSections();
+          const currentScrollTop = window.scrollY;
+          
+          // Find the closest section we're near
+          let closestSection = sections[0];
+          let minDistance = Math.abs(currentScrollTop - sections[0].position);
+          
+          for (const section of sections) {
+            const distance = Math.abs(currentScrollTop - section.position);
+            if (distance < minDistance) {
+              minDistance = distance;
+              closestSection = section;
+            }
+          }
+          
+          // Determine if we should snap to next/previous section based on scroll direction
+          const currentIndex = sections.findIndex(s => s.name === closestSection.name);
+          let targetSection = closestSection;
+          
+          // If we're between sections, decide which one to snap to
+          if (minDistance > 50) {
+            if (scrollingDown && currentIndex < sections.length - 1) {
+              targetSection = sections[currentIndex + 1];
+            } else if (!scrollingDown && currentIndex > 0) {
+              targetSection = sections[currentIndex - 1];
+            }
+          }
+          
+          // Snap to target section if we're not already there
+          if (Math.abs(currentScrollTop - targetSection.position) > 20) {
+            isScrolling = true;
             window.scrollTo({
-              top: workScrollPosition,
+              top: targetSection.position,
               behavior: 'smooth'
             });
+            
+            // Reset scrolling flag after animation
+            setTimeout(() => {
+              isScrolling = false;
+            }, 800);
           }
-        }, 50);
-      }
-      // If we're at work section and scrolling up, snap back to top
-      else if (isAtWork && !scrollingDown && scrollTop < workScrollPosition && scrollTop > 10) {
-        isAtWork = false;
-        
-        clearTimeout(scrollTimeout);
-        
-        scrollTimeout = setTimeout(() => {
-          window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-          });
-        }, 50);
-      }
+        }
+      }, 150);
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
