@@ -283,7 +283,7 @@ export default function DynamicHomePage({ projects: initialProjects }: DynamicHo
       {/* Hero Section - Big, Centered, Band-like */}
       <section className="flex flex-col items-center justify-center text-center w-full pt-24 pb-20 px-6 md:px-4 relative z-10 border-b-2 border-[#232842]/40 bg-gradient-to-b from-black/90 via-[#181b23]/80 to-transparent">
         <div className="animate-fade-in-up">
-          <h1 className="text-5xl md:text-6xl font-black text-white mb-4 tracking-widest drop-shadow-xl uppercase hover:text-[#6a5cff] transition-colors duration-300" style={{ fontFamily: 'var(--font-geist-sans)' }}>
+          <h1 className="text-5xl md:text-6xl font-black text-white mb-4 tracking-widest drop-shadow-xl hover:text-[#6a5cff] transition-colors duration-300" style={{ fontFamily: 'var(--font-geist-sans)' }}>
             Maud Kusters
           </h1>
         </div>
