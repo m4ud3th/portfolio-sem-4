@@ -4,7 +4,6 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import AuthAwareAdminLink from './AuthAwareAdminLink';
 import { getProjectUrl } from '@/lib/utils/project';
 import { createClient } from '@/lib/supabase/client';
 import type { Database } from '@/lib/types/database.types';
@@ -423,10 +422,7 @@ export default function DynamicHomePage({ projects: initialProjects }: DynamicHo
 
       {/* Footer */}
       <footer className="w-full py-8 bg-black/90 backdrop-blur-sm text-center text-gray-400 text-base border-t-2 border-[#232842]/40 mt-16 relative z-10 rounded-t-xl shadow-lg tracking-widest uppercase">
-        <div className="flex flex-col items-center gap-2 animate-fade-in-up">
-          <div>&copy; {new Date().getFullYear()} Maud Kusters. All rights reserved.</div>
-          <AuthAwareAdminLink />
-        </div>
+        <p>&copy; {new Date().getFullYear()} Maud Kusters. All rights reserved.</p>
       </footer>
     </div>
   );

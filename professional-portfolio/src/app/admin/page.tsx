@@ -4,19 +4,13 @@ import { redirect } from 'next/navigation';
 import AdminDashboard from '../../components/AdminDashboard';
 
 export default async function AdminPage() {
+  let supabase;
+  
   try {
-    const supabase = await createClient();
+    supabase = await createClient();
+  } catch (error) {
+    console.error('Supabase configuration error:', error);
     
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-
-    if (!user) {
-      redirect('/auth/login');
-    }
-
-    return <AdminDashboard user={user} />;
-  } catch {
     // If Supabase is not configured, show setup message
     return (
       <div className="min-h-screen bg-gradient-to-br from-black via-[#181a20] to-[#232842] flex items-center justify-center px-4">
@@ -42,4 +36,16 @@ export default async function AdminPage() {
       </div>
     );
   }
+
+  // Supabase is configured, check authentication
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  // If no user, redirect to login
+  if (!user) {
+    redirect('/auth/login');
+  }
+
+  return <AdminDashboard user={user} />;
 }
