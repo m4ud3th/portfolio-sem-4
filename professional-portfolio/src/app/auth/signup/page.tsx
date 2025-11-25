@@ -21,37 +21,7 @@ export default function SignupPage() {
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
-    setError('');
-    setMessage('');
-
-    if (!supabase) {
-      setError('Supabase is not configured. Please set up your environment variables.');
-      setLoading(false);
-      return;
-    }
-
-    try {
-      const { error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          data: {
-            full_name: fullName,
-          },
-        },
-      });
-
-      if (error) {
-        setError(error.message);
-      } else {
-        setMessage('Check your email for the confirmation link!');
-      }
-    } catch {
-      setError('An unexpected error occurred');
-    } finally {
-      setLoading(false);
-    }
+    setError('New account registration is disabled.');
   };
 
   return (
@@ -59,9 +29,9 @@ export default function SignupPage() {
       <div className="max-w-md w-full bg-[#181b23] rounded-2xl border border-[#232842]/40 p-8 shadow-2xl">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-black text-white tracking-widest uppercase mb-2">
-            Sign Up
+            Sign Up Disabled
           </h1>
-          <p className="text-gray-300">Create your portfolio admin account</p>
+          <p className="text-gray-300">New account registration is not available</p>
         </div>
 
         {error && (
@@ -125,10 +95,10 @@ export default function SignupPage() {
 
           <button
             type="submit"
-            disabled={loading}
-            className="w-full py-3 px-4 bg-[#6a5cff] hover:bg-[#6a5cff]/80 disabled:bg-[#6a5cff]/50 text-white font-bold rounded-lg transition-colors duration-200 uppercase tracking-wide cursor-pointer"
+            disabled={true}
+            className="w-full py-3 px-4 bg-gray-600 cursor-not-allowed text-white font-bold rounded-lg transition-colors duration-200 uppercase tracking-wide"
           >
-            {loading ? 'Creating account...' : 'Sign Up'}
+            Sign Up Disabled
           </button>
         </form>
 

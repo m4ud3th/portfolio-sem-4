@@ -135,14 +135,7 @@ export default function LoginPage() {
               </button>
             </form>
 
-            <div className="mt-6 text-center">
-              <p className="text-gray-400 text-sm">
-                Don&apos;t have an account?{' '}
-                <Link href="/auth/signup" className="text-[#6a5cff] hover:text-[#6a5cff]/80 transition-colors cursor-pointer">
-                  Sign up
-                </Link>
-              </p>
-            </div>
+
 
             <div className="mt-4 text-center">
               <Link href="/" className="text-gray-400 hover:text-white transition-colors text-sm cursor-pointer">
