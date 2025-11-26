@@ -62,16 +62,22 @@ portfolio-sem-4/
 
 ## 🔧 Environment Setup
 
-Create a `.env.local` file in the root folder:
+Copy `.env.example` to `.env.local` and update with your credentials:
+
+```bash
+cp .env.example .env.local
+```
+
+Then edit `.env.local` with your actual values:
 
 ```env
 NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
-SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
-NEXT_PUBLIC_SITE_URL=http://localhost:3000
 EMAIL_USER=your_email@gmail.com
 EMAIL_PASS=your_app_password
 ```
+
+> 💡 **Tip**: Visit `/setup` in your browser for an interactive setup guide!
 
 ## 📖 Pages
 
@@ -94,9 +100,9 @@ npm install
 
 ### 2. Configure Supabase
 1. Create a project at [Supabase](https://supabase.com)
-2. Copy your project credentials
-3. Create `.env.local` file with the variables above
-4. Run the SQL schema in Supabase SQL Editor (from `supabase/schema.sql`)
+2. Copy your project credentials to `.env.local` (or use the `/setup` guide)
+3. Run the SQL schema in Supabase SQL Editor (from `supabase/schema.sql`)
+4. Enable email authentication in Supabase dashboard
 
 ### 3. Configure Email (Optional)
 1. Set up Gmail App Password
@@ -148,3 +154,7 @@ Open [http://localhost:3000](http://localhost:3000)
 ## 📝 License
 
 MIT License - feel free to use this for your own portfolio!
+
+---
+
+*This README was written with the assistance of GitHub Copilot.*
