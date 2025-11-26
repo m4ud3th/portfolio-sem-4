@@ -87,10 +87,6 @@ EMAIL_PASS=your_app_password
 - `/contact` - Contact form
 - `/admin` - Admin dashboard (protected)
 
-## 🚀 Deployment
-
-This project is optimized for deployment on Vercel. Simply connect your GitHub repository and add the environment variables.
-
 ## 📋 Setup Instructions
 
 ### 1. Install Dependencies
@@ -116,15 +112,9 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000)
 
-## 🎯 Usage
+## 🎯 Admin Dashboard
 
-### Admin Access
-1. Create your admin account (signup at `/auth/signup`)
-2. Login at `/auth/login`
-3. Access dashboard at `/admin`
-4. Small "Dashboard" link appears in footer when logged in
-
-### Managing Content
+Access the admin dashboard at `/admin` to manage content:
 
 **Projects Tab:**
 - Add new projects with images, descriptions, links
@@ -138,18 +128,9 @@ Open [http://localhost:3000](http://localhost:3000)
 - Manage your skills list (comma-separated)
 - Skills auto-sort alphabetically
 
-### Public Pages
-- **Homepage** (`/`) - Shows featured projects
-- **About** (`/about`) - Your bio and skills
-- **Work** (`/work`) - All projects gallery
-- **Contact** (`/contact`) - Email contact form
+## 🚀 Deployment
 
-## 🚀 Deployment on Vercel
-
-1. Push your code to GitHub
-2. Import project in [Vercel](https://vercel.com)
-3. Add environment variables in Vercel dashboard
-4. Deploy!
+Deploy to [Vercel](https://vercel.com) by connecting your GitHub repository and adding the environment variables from `.env.local` to the Vercel dashboard.
 
 ## 📝 License
 
