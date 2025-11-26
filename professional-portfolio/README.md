@@ -1,41 +1,20 @@
-# Professional Portfolio
-
-This is a portfolio website built with Next.js, React, TypeScript, and Tailwind CSS. Use it to showcase your web projects.
-
-## Getting Started
-
-1. Install dependencies:
-   ```sh
-   npm install
-   ```
-2. Run the development server:
-   ```sh
-   npm run dev
-   ```
-3. Open [http://localhost:3000](http://localhost:3000) to view your site.
-
-## Features
-- Next.js App Router
-- TypeScript (TSX)
-- Tailwind CSS styling
-- ESLint for code quality
-
-## Customization
-Replace the placeholder content in the `src/app` directory with your own portfolio projects and information.
-
 # Professional Portfolio with Supabase
 
 A modern portfolio website built with Next.js, TypeScript, Tailwind CSS, and Supabase for authentication and data management.
 
 ## Features
 
-- 🎨 Modern, responsive design with band-inspired aesthetics
-- 🔐 Authentication system (login/signup)
-- 📊 Admin dashboard for project management
+- 🎨 Modern, responsive design with glassmorphism effects
+- 🔐 Secure authentication system (login only - signup disabled)
+- 📊 Admin dashboard for content management
+- 📝 Editable About Me page through admin panel
 - 🗃️ Database integration with Supabase
 - ✨ Dynamic project display with CRUD operations
+- 📧 Contact form with email integration
 - 🔒 Row Level Security (RLS) for data protection
-- 📱 Mobile-responsive design
+- 📱 Mobile-responsive design with custom layouts
+- 🎯 Smooth scroll behavior and navigation
+- 🔗 Dedicated Work page showing all projects
 
 ## Tech Stack
 
@@ -66,7 +45,11 @@ NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
 SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
 NEXT_PUBLIC_SITE_URL=http://localhost:3000
+EMAIL_USER=your_gmail@gmail.com
+EMAIL_PASS=your_app_password
 ```
+
+> **Note**: For email functionality, you'll need to set up Gmail with an App Password. See the email setup guide for details.
 
 ### 3. Set up Database Schema
 
@@ -87,12 +70,13 @@ Open [http://localhost:3000](http://localhost:3000) to see your portfolio.
 ### Tables
 
 - **profiles**: User profile information
-- **projects**: Portfolio projects with images, descriptions, and links
+- **projects**: Portfolio projects with images, descriptions, technologies, and links
+- **about_me**: Editable about page content (paragraphs and skills)
 
 ### Row Level Security
 
-- Users can only manage their own projects
-- Public read access for displaying projects
+- Users can only manage their own content (projects and about page)
+- Public read access for all content display
 - Secure authentication with automatic profile creation
 
 ## Usage
@@ -105,35 +89,52 @@ Open [http://localhost:3000](http://localhost:3000) to see your portfolio.
 
 ### Admin Features
 
-1. **Sign Up**: Create an account at `/auth/signup`
-2. **Sign In**: Login at `/auth/login`
-3. **Admin Dashboard**: Access at `/admin` (requires authentication)
-4. **Manage Projects**: Add, edit, delete projects from the admin panel
+1. **Sign In**: Login at `/auth/login` (signup is disabled for security)
+2. **Admin Dashboard**: Access at `/admin` (requires authentication)
+3. **Dashboard Link**: Visible in footer when logged in
+4. **Tab Navigation**: Switch between Projects and About Me sections
 
-### Project Management
+### Content Management
 
 In the admin dashboard, you can:
+
+**Projects Tab:**
 - ✅ Create new projects
 - ✅ Edit existing projects
 - ✅ Delete projects
-- ✅ Mark projects as featured
-- ✅ Add technologies, links, and descriptions
+- ✅ Mark projects as featured (shown on homepage)
+- ✅ Add technologies, project dates, links, and descriptions
+- ✅ Upload project images
+
+**About Me Tab:**
+- ✅ Edit introduction paragraph
+- ✅ Update second paragraph
+- ✅ Modify third paragraph
+- ✅ Manage skills list (comma-separated, auto-sorted alphabetically)
 
 ## File Structure
 
 ```
 src/
 ├── app/
+│   ├── about/           # About Me page
 │   ├── admin/           # Admin dashboard
-│   ├── auth/            # Authentication pages
+│   ├── auth/            # Authentication pages (login/signup)
+│   ├── contact/         # Contact form page
+│   ├── work/            # All projects page
+│   ├── project/[id]/    # Individual project pages
 │   └── page.tsx         # Homepage
 ├── components/
-│   ├── AdminDashboard.tsx
-│   └── DynamicHomePage.tsx
+│   ├── AdminDashboard.tsx      # Main admin interface with tabs
+│   ├── AuthAwareAdminLink.tsx  # Conditional dashboard link
+│   ├── AuthProvider.tsx        # Auth context provider
+│   ├── ContactForm.tsx         # Email contact form
+│   └── DynamicHomePage.tsx     # Homepage with projects
 ├── lib/
-│   ├── actions/         # Database operations
+│   ├── actions/         # Server actions for database operations
 │   ├── supabase/        # Supabase client configuration
-│   └── types/           # TypeScript type definitions
+│   ├── types/           # TypeScript type definitions
+│   └── utils/           # Helper functions
 └── middleware.ts        # Authentication middleware
 ```
 
@@ -145,6 +146,8 @@ src/
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Your Supabase anonymous key |
 | `SUPABASE_SERVICE_ROLE_KEY` | Your Supabase service role key |
 | `NEXT_PUBLIC_SITE_URL` | Your site URL (for redirects) |
+| `EMAIL_USER` | Gmail address for contact form |
+| `EMAIL_PASS` | Gmail app password for SMTP |
 
 ## Deployment
 
@@ -165,13 +168,25 @@ This is a standard Next.js app and can be deployed to any platform that supports
 
 - Colors are defined in Tailwind classes
 - Main color scheme: black, purple (#6a5cff), and grays
+- Glassmorphism effects with backdrop blur
 - Modify `src/app/globals.css` for global styles
 
 ### Content
 
-- Update hero section content in `DynamicHomePage.tsx`
-- Modify contact information and email
-- Add your own project images to `public/images/`
+- **About Page**: Edit through admin dashboard (About Me tab)
+- **Projects**: Manage through admin dashboard (Projects tab)
+- **Hero Section**: Update in `DynamicHomePage.tsx` if needed
+- **Contact Form**: Configure email in environment variables
+- **Images**: Add project images to `public/images/`
+
+### Pages
+
+- `/` - Homepage with featured projects
+- `/about` - About Me page (editable via admin)
+- `/work` - All projects page
+- `/contact` - Contact form
+- `/project/[id]` - Individual project details
+- `/admin` - Admin dashboard (protected)
 
 ## Development
 
