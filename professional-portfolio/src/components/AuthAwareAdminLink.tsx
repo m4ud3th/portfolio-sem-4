@@ -6,16 +6,16 @@ import Link from 'next/link';
 export default function AuthAwareAdminLink() {
   const { user, loading } = useAuth();
 
-  if (loading) {
-    return null; // Don't show anything while checking
+  if (loading || !user) {
+    return null; // Only show when logged in
   }
 
   return (
     <Link
-      href={user ? "/admin" : "/auth/login"}
+      href="/admin"
       className="text-gray-500 hover:text-[#6a5cff] text-xs transition-colors duration-200 cursor-pointer"
     >
-      {user ? "Dashboard" : "Admin"}
+      Dashboard
     </Link>
   );
 }

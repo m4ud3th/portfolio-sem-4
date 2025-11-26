@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 import { getProjectUrl } from '@/lib/utils/project';
+import AuthAwareAdminLink from '@/components/AuthAwareAdminLink';
 import type { Database } from '@/lib/types/database.types';
 
 type Project = Database['public']['Tables']['projects']['Row'];
@@ -228,6 +229,9 @@ export default function WorkPage() {
       {/* Footer */}
       <footer className="w-full py-8 bg-black/90 backdrop-blur-sm text-center text-gray-400 text-base border-t-2 border-[#232842]/40 mt-16 relative z-10 rounded-t-xl shadow-lg tracking-widest uppercase">
         <p>&copy; {new Date().getFullYear()} Maud Kusters. All rights reserved.</p>
+        <div className="mt-2">
+          <AuthAwareAdminLink />
+        </div>
       </footer>
     </div>
   );

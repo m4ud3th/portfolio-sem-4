@@ -8,6 +8,7 @@ import type { User } from '@supabase/supabase-js';
 import type { Database } from '@/lib/types/database.types';
 
 type Project = Database['public']['Tables']['projects']['Row'];
+type AboutContent = Database['public']['Tables']['about_me']['Row'];
 
 // Define proper error type interface
 interface SupabaseError {
@@ -22,7 +23,9 @@ interface AdminDashboardProps {
 }
 
 export default function AdminDashboard({ user }: AdminDashboardProps) {
+  const [activeTab, setActiveTab] = useState<'projects' | 'about'>('projects');
   const [projects, setProjects] = useState<Project[]>([]);
+  const [aboutContent, setAboutContent] = useState<AboutContent | null>(null);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const [editingProject, setEditingProject] = useState<Project | null>(null);
@@ -35,6 +38,12 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
     technologies: '',
     featured: false,
     project_date: '',
+  });
+  const [aboutForm, setAboutForm] = useState({
+    intro_text: '',
+    paragraph_two: '',
+    paragraph_three: '',
+    skills: '',
   });
   const router = useRouter();
   
@@ -59,11 +68,44 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
     }
   }, [supabase]);
 
+  const fetchAboutContent = useCallback(async () => {
+    if (!supabase) return;
+    try {
+      const { data } = await supabase
+        .from('about_me')
+        .select('*')
+        .eq('user_id', user.id)
+        .limit(1)
+        .single();
+
+      if (data) {
+        setAboutContent(data);
+        setAboutForm({
+          intro_text: data.intro_text,
+          paragraph_two: data.paragraph_two,
+          paragraph_three: data.paragraph_three,
+          skills: data.skills.join(', '),
+        });
+      } else {
+        // Set defaults if no content exists
+        setAboutForm({
+          intro_text: "Hi! I'm Maud Kusters, a college student passionate about web development and digital design.",
+          paragraph_two: "I'm currently studying and building my skills in modern web technologies. I love creating beautiful, functional websites that solve real problems and provide great user experiences.",
+          paragraph_three: "When I'm not coding, you can find me exploring new design trends, learning new frameworks, or working on personal projects that challenge me to grow as a developer.",
+          skills: 'Git, Next.js, Node.js, React, Supabase, Tailwind CSS, TypeScript',
+        });
+      }
+    } catch (error) {
+      console.error('Error fetching about content:', error);
+    }
+  }, [supabase, user.id]);
+
   useEffect(() => {
     if (isConfigured && supabase) {
       fetchProjects();
+      fetchAboutContent();
     }
-  }, [isConfigured, supabase, fetchProjects]);
+  }, [isConfigured, supabase, fetchProjects, fetchAboutContent]);
 
   // If Supabase is not configured, show setup message
   if (!isConfigured || !supabase) {
@@ -232,6 +274,42 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
     }
   };
 
+  const handleAboutSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!supabase) return;
+
+    const aboutData = {
+      intro_text: aboutForm.intro_text.trim(),
+      paragraph_two: aboutForm.paragraph_two.trim(),
+      paragraph_three: aboutForm.paragraph_three.trim(),
+      skills: aboutForm.skills.split(',').map(s => s.trim()).filter(Boolean),
+      user_id: user.id,
+    };
+
+    try {
+      if (aboutContent) {
+        const { error } = await supabase
+          .from('about_me')
+          .update(aboutData)
+          .eq('id', aboutContent.id);
+
+        if (error) throw error;
+        alert('About content updated successfully!');
+      } else {
+        const { error } = await supabase
+          .from('about_me')
+          .insert([aboutData]);
+
+        if (error) throw error;
+        alert('About content created successfully!');
+      }
+      await fetchAboutContent();
+    } catch (error) {
+      console.error('Error saving about content:', error);
+      alert('Failed to save. Check console for details.');
+    }
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-black via-[#181a20] to-[#232842] flex items-center justify-center">
@@ -265,18 +343,45 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
           </div>
         </div>
 
-        {/* Add Project Button */}
-        <div className="mb-8">
+        {/* Tabs */}
+        <div className="flex gap-4 mb-8 border-b border-[#232842]/40">
           <button
-            onClick={() => setShowForm(!showForm)}
-            className="px-6 py-3 bg-[#6a5cff] hover:bg-[#6a5cff]/80 text-white font-bold rounded-lg transition-colors cursor-pointer"
+            onClick={() => setActiveTab('projects')}
+            className={`px-6 py-3 font-bold tracking-wide transition-all ${
+              activeTab === 'projects'
+                ? 'text-[#6a5cff] border-b-2 border-[#6a5cff]'
+                : 'text-gray-400 hover:text-white'
+            }`}
           >
-            {showForm ? 'Cancel' : 'Add New Project'}
+            Projects
+          </button>
+          <button
+            onClick={() => setActiveTab('about')}
+            className={`px-6 py-3 font-bold tracking-wide transition-all ${
+              activeTab === 'about'
+                ? 'text-[#6a5cff] border-b-2 border-[#6a5cff]'
+                : 'text-gray-400 hover:text-white'
+            }`}
+          >
+            About Me
           </button>
         </div>
 
-        {/* Project Form */}
-        {showForm && (
+        {/* Projects Tab */}
+        {activeTab === 'projects' && (
+          <>
+            {/* Add Project Button */}
+            <div className="mb-8">
+              <button
+                onClick={() => setShowForm(!showForm)}
+                className="px-6 py-3 bg-[#6a5cff] hover:bg-[#6a5cff]/80 text-white font-bold rounded-lg transition-colors cursor-pointer"
+              >
+                {showForm ? 'Cancel' : 'Add New Project'}
+              </button>
+            </div>
+
+            {/* Project Form */}
+            {showForm && (
           <div className="bg-[#181b23] rounded-2xl border border-[#232842]/40 p-6 mb-8">
             <h2 className="text-xl font-bold text-white mb-6">
               {editingProject ? 'Edit Project' : 'Add New Project'}
@@ -449,6 +554,79 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
             </div>
           )}
         </div>
+          </>
+        )}
+
+        {/* About Me Tab */}
+        {activeTab === 'about' && (
+          <div className="bg-[#181b23] rounded-2xl border border-[#232842]/40 p-6 shadow-2xl">
+            <h2 className="text-2xl font-black text-white tracking-widest uppercase mb-6">
+              Edit About Me Page
+            </h2>
+
+            <form onSubmit={handleAboutSubmit} className="space-y-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">
+                  Introduction Paragraph
+                </label>
+                <textarea
+                  value={aboutForm.intro_text}
+                  onChange={(e) => setAboutForm({ ...aboutForm, intro_text: e.target.value })}
+                  className="w-full px-4 py-3 bg-[#232842]/60 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#6a5cff] focus:border-transparent"
+                  rows={3}
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">
+                  Second Paragraph
+                </label>
+                <textarea
+                  value={aboutForm.paragraph_two}
+                  onChange={(e) => setAboutForm({ ...aboutForm, paragraph_two: e.target.value })}
+                  className="w-full px-4 py-3 bg-[#232842]/60 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#6a5cff] focus:border-transparent"
+                  rows={3}
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">
+                  Third Paragraph
+                </label>
+                <textarea
+                  value={aboutForm.paragraph_three}
+                  onChange={(e) => setAboutForm({ ...aboutForm, paragraph_three: e.target.value })}
+                  className="w-full px-4 py-3 bg-[#232842]/60 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#6a5cff] focus:border-transparent"
+                  rows={3}
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">
+                  Skills (comma-separated)
+                </label>
+                <input
+                  type="text"
+                  value={aboutForm.skills}
+                  onChange={(e) => setAboutForm({ ...aboutForm, skills: e.target.value })}
+                  className="w-full px-4 py-3 bg-[#232842]/60 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#6a5cff] focus:border-transparent"
+                  placeholder="e.g., React, TypeScript, Node.js"
+                  required
+                />
+              </div>
+
+              <button
+                type="submit"
+                className="w-full px-6 py-3 bg-[#6a5cff] text-white rounded-lg hover:bg-[#6a5cff]/80 transition-colors font-medium"
+              >
+                {aboutContent ? 'Update About Content' : 'Create About Content'}
+              </button>
+            </form>
+          </div>
+        )}
       </div>
     </div>
   );

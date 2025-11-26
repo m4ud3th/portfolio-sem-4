@@ -1,5 +1,8 @@
+'use client';
+
 import Link from 'next/link';
 import ContactForm from '@/components/ContactForm';
+import AuthAwareAdminLink from '@/components/AuthAwareAdminLink';
 
 export default function ContactPage() {
   return (
@@ -51,13 +54,14 @@ export default function ContactPage() {
           <ContactForm />
         </div>
       </main>
+
+      {/* Footer */}
+      <footer className="w-full py-8 bg-black/90 backdrop-blur-sm text-center text-gray-400 text-base border-t-2 border-[#232842]/40 mt-16 relative z-10 rounded-t-xl shadow-lg tracking-widest uppercase">
+        <p>&copy; {new Date().getFullYear()} Maud Kusters. All rights reserved.</p>
+        <div className="mt-2">
+          <AuthAwareAdminLink />
+        </div>
+      </footer>
     </div>
   );
-}
-
-export async function generateMetadata() {
-  return {
-    title: 'Contact - Maud Kusters',
-    description: 'Get in touch with Maud Kusters. Send a message about projects, collaborations, or opportunities.',
-  };
 }

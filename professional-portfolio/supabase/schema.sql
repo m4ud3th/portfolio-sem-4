@@ -139,3 +139,48 @@ begin
     alter table public.projects add column project_date text not null default 'January 2024';
   end if;
 end $$;
+
+-- Create about_me table
+create table if not exists public.about_me (
+  id uuid default gen_random_uuid() primary key,
+  intro_text text not null,
+  paragraph_two text not null,
+  paragraph_three text not null,
+  skills text[] not null default '{}',
+  created_at timestamp with time zone default timezone('utc'::text, now()) not null,
+  updated_at timestamp with time zone default timezone('utc'::text, now()) not null,
+  user_id uuid references auth.users(id) on delete cascade not null
+);
+
+-- Enable RLS on about_me table
+alter table public.about_me enable row level security;
+
+-- Create policies for about_me
+do $$ 
+begin
+  if not exists (select 1 from pg_policies where tablename = 'about_me' and policyname = 'About content is viewable by everyone.') then
+    create policy "About content is viewable by everyone." on about_me for select using (true);
+  end if;
+  
+  if not exists (select 1 from pg_policies where tablename = 'about_me' and policyname = 'Users can insert their own about content.') then
+    create policy "Users can insert their own about content." on about_me for insert with check (auth.uid() = user_id);
+  end if;
+  
+  if not exists (select 1 from pg_policies where tablename = 'about_me' and policyname = 'Users can update own about content.') then
+    create policy "Users can update own about content." on about_me for update using (auth.uid() = user_id);
+  end if;
+end $$;
+
+-- Create trigger for about_me updated_at
+do $$
+begin
+  if not exists (
+    select 1 from information_schema.triggers 
+    where trigger_name = 'handle_updated_at' 
+    and event_object_table = 'about_me'
+    and trigger_schema = 'public'
+  ) then
+    create trigger handle_updated_at before update on public.about_me
+      for each row execute procedure public.handle_updated_at();
+  end if;
+end $$;

@@ -6,6 +6,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { getProjectUrl } from '@/lib/utils/project';
 import { createClient } from '@/lib/supabase/client';
+import AuthAwareAdminLink from '@/components/AuthAwareAdminLink';
 import type { Database } from '@/lib/types/database.types';
 
 type Project = Database['public']['Tables']['projects']['Row'];
@@ -282,23 +283,20 @@ export default function DynamicHomePage({ projects: initialProjects }: DynamicHo
       {/* Hero Section - Big, Centered, Band-like */}
       <section className="flex flex-col items-center justify-center text-center w-full pt-24 pb-20 px-6 md:px-4 relative z-10 border-b-2 border-[#232842]/40 bg-gradient-to-b from-black/90 via-[#181b23]/80 to-transparent">
         <div className="animate-fade-in-up">
-          <h1 className="text-5xl md:text-6xl font-black text-white mb-4 tracking-widest drop-shadow-xl uppercase hover:text-[#6a5cff] transition-colors duration-300" style={{ fontFamily: 'var(--font-geist-sans)' }}>
-            Maud Kusters
-          </h1>
+          <Link href="/about">
+            <h1 className="text-5xl md:text-6xl font-black text-white mb-4 tracking-widest drop-shadow-xl uppercase hover:text-[#6a5cff] transition-colors duration-300 cursor-pointer" style={{ fontFamily: 'var(--font-geist-sans)' }}>
+              Maud Kusters
+            </h1>
+          </Link>
         </div>
         <div className="animate-fade-in-up" style={{animationDelay: '0.2s'}}>
-          <h2 className="text-xl md:text-2xl text-gray-200 mb-6 font-semibold tracking-wider uppercase">
+          <h2 className="text-xl md:text-2xl text-gray-200 mb-8 font-semibold tracking-wider uppercase">
             <span className="inline-block">Creative</span>
             <span className="inline-block mx-2 text-[#6a5cff]">Coding</span>
             <span className="inline-block">Student</span>
           </h2>
         </div>
-        <div className="animate-fade-in-up max-w-2xl mx-auto px-4" style={{animationDelay: '0.4s'}}>
-          <p className="text-lg text-gray-300 mb-8 leading-relaxed">
-            Hi! I&apos;m Maud, a college student passionate about web development and digital design. Here you&apos;ll find a selection of my projects. I&apos;m always learning and excited to take on new challenges.
-          </p>
-        </div>
-        <div className="animate-fade-in-up" style={{animationDelay: '0.6s'}}>
+        <div className="animate-fade-in-up" style={{animationDelay: '0.4s'}}>
           <ContactScrollButton />
         </div>
       </section>
@@ -423,6 +421,9 @@ export default function DynamicHomePage({ projects: initialProjects }: DynamicHo
       {/* Footer */}
       <footer className="w-full py-8 bg-black/90 backdrop-blur-sm text-center text-gray-400 text-base border-t-2 border-[#232842]/40 mt-16 relative z-10 rounded-t-xl shadow-lg tracking-widest uppercase">
         <p>&copy; {new Date().getFullYear()} Maud Kusters. All rights reserved.</p>
+        <div className="mt-2">
+          <AuthAwareAdminLink />
+        </div>
       </footer>
     </div>
   );
@@ -465,7 +466,7 @@ function ContactScrollButton() {
   const router = useRouter();
   function handleClick(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
-    router.push("/contact");
+    router.push("/about");
   }
   return (
     <button
@@ -473,7 +474,7 @@ function ContactScrollButton() {
       className="inline-block px-8 py-3 rounded border-2 border-[#6a5cff] text-white font-bold bg-[#232842]/40 hover:bg-[#6a5cff]/50 hover:text-white hover:scale-105 hover:shadow-lg transition-all duration-200 text-lg shadow-lg tracking-wide uppercase cursor-pointer"
       type="button"
     >
-      Get in touch
+      About Me
     </button>
   );
 }
