@@ -3,6 +3,8 @@
 import { useEffect, useState } from 'react';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
 import Image from 'next/image';
 import type { Database } from '@/lib/types/database.types';
 import { createClient } from '@/lib/supabase/client';
@@ -99,23 +101,8 @@ export default function ProjectPage({ params }: ProjectPageProps) {
       {/* Grungy Texture Overlay */}
       <div className="pointer-events-none fixed inset-0 z-0 opacity-10 mix-blend-overlay" style={{backgroundImage: 'url(https://www.transparenttextures.com/patterns/diamond-upholstery.png), url(https://www.transparenttextures.com/patterns/grunge-wall.png)'}} />
       
-      {/* Header */}
-      <header className="w-full bg-black/90 flex items-center justify-between px-4 md:px-8 py-6 border-b-2 border-[#232842] z-20 relative shadow-xl tracking-widest">
-        <Link
-          href="/"
-          className="text-3xl md:text-4xl font-black text-white select-none tracking-widest drop-shadow-lg hover:text-[#6a5cff] transition-colors duration-200 cursor-pointer"
-          style={{ fontFamily: 'var(--font-geist-sans)' }}
-        >
-          <span className="block sm:hidden">MK</span>
-          <span className="hidden sm:block">M Kusters</span>
-        </Link>
-        <Link
-          href="/"
-          className="text-white bg-transparent rounded px-5 py-2 font-bold text-lg hover:text-[#6a5cff] hover:bg-[#232842]/30 transition-colors duration-200 shadow-sm tracking-wide cursor-pointer"
-        >
-          ← Back to Portfolio
-        </Link>
-      </header>
+      {/* Reusable Navbar Component */}
+      <Navbar />
 
       {/* Project Content */}
       <main className="flex-1 w-full max-w-6xl mx-auto px-6 md:px-4 py-10 relative z-10">
@@ -219,6 +206,7 @@ export default function ProjectPage({ params }: ProjectPageProps) {
           </Link>
         </div>
       </main>
+      <Footer />
     </div>
   );
 }

@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import AuthAwareAdminLink from "@/components/AuthAwareAdminLink";
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
 import { createClient } from "@/lib/supabase/client";
 import type { Database } from "@/lib/types/database.types";
 
@@ -55,33 +56,8 @@ export default function AboutPage() {
         <div className="absolute top-1/2 left-3/4 w-20 h-20 bg-[#232842]/30 rounded-full blur-md animate-pulse" style={{animationDelay: '1s'}}></div>
       </div>
       
-      {/* Bold Band-style Header */}
-      <header className="w-full bg-black/90 backdrop-blur-sm flex items-center justify-between px-4 md:px-8 py-6 border-b-2 border-[#232842] z-20 relative shadow-xl tracking-widest">
-        <div className="flex items-center">
-          <Link
-            href="/"
-            className="text-3xl md:text-4xl font-black text-white select-none tracking-widest drop-shadow-lg hover:text-[#6a5cff] hover:scale-105 transition-all duration-200 cursor-pointer ml-4"
-            style={{ fontFamily: 'var(--font-geist-sans)' }}
-          >
-            <span className="block sm:hidden">MK</span>
-            <span className="hidden sm:block">MK</span>
-          </Link>
-        </div>
-        <nav className="flex items-center gap-6">
-          <Link
-            href="/work"
-            className="text-white bg-transparent rounded px-5 py-2 font-bold text-lg hover:text-[#6a5cff] hover:bg-[#232842]/30 hover:scale-105 transition-all duration-200 shadow-sm tracking-wide cursor-pointer"
-          >
-            Work
-          </Link>
-          <Link
-            href="/contact"
-            className="text-white bg-transparent rounded px-5 py-2 font-bold text-lg hover:text-[#6a5cff] hover:bg-[#232842]/30 hover:scale-105 transition-all duration-200 shadow-sm tracking-wide cursor-pointer"
-          >
-            Contact
-          </Link>
-        </nav>
-      </header>
+      {/* Reusable Navbar Component */}
+      <Navbar />
 
       {/* About Content */}
       <main className="flex-1 w-full max-w-4xl mx-auto px-6 md:px-8 py-16 relative z-10">
@@ -145,13 +121,8 @@ export default function AboutPage() {
         </div>
       </main>
 
-      {/* Footer */}
-      <footer className="w-full py-8 bg-black/90 backdrop-blur-sm text-center text-gray-400 text-base border-t-2 border-[#232842]/40 mt-16 relative z-10 rounded-t-xl shadow-lg tracking-widest uppercase">
-        <p>&copy; {new Date().getFullYear()} Maud Kusters. All rights reserved.</p>
-        <div className="mt-2">
-          <AuthAwareAdminLink />
-        </div>
-      </footer>
+      {/* Reusable Footer Component */}
+      <Footer />
     </div>
   );
 }

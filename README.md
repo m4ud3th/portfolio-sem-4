@@ -49,6 +49,8 @@ portfolio-sem-4/
 │   │   ├── AdminDashboard.tsx
 │   │   ├── DynamicHomePage.tsx
 │   │   ├── ContactForm.tsx
+│   │   ├── Navbar.tsx    # Reusable navigation bar component
+│   │   ├── Footer.tsx    # Reusable footer component
 │   │   └── Auth components
 │   └── lib/              # Utils, actions, types
 │       ├── actions/      # Server actions
@@ -58,6 +60,7 @@ portfolio-sem-4/
 ├── public/               # Static assets and images
 ├── supabase/             # Database schema
 └── .env.local            # Environment variables (create this)
+```
 ```
 
 ## 🔧 Environment Setup
@@ -79,13 +82,15 @@ EMAIL_PASS=your_app_password
 
 > 💡 **Tip**: Visit `/setup` in your browser for an interactive setup guide!
 
-## 📖 Pages
+## 📖 Pages & Layout
 
-- `/` - Homepage with featured projects
-- `/about` - About Me page (editable via admin)
-- `/work` - All projects gallery
-- `/contact` - Contact form
-- `/admin` - Admin dashboard (protected)
+- All main pages use the reusable `Navbar` and `Footer` components for consistent navigation and layout:
+	- `/` - Homepage with featured projects
+	- `/about` - About Me page (editable via admin)
+	- `/work` - All projects gallery
+	- `/contact` - Contact form
+	- `/admin` - Admin dashboard (protected)
+	- `/project/[id]` - Dynamic project detail pages
 
 ## 📋 Setup Instructions
 

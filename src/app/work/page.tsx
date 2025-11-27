@@ -2,11 +2,12 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import Navbar from '@/components/Navbar';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 import { getProjectUrl } from '@/lib/utils/project';
-import AuthAwareAdminLink from '@/components/AuthAwareAdminLink';
+import Footer from '@/components/Footer';
 import type { Database } from '@/lib/types/database.types';
 
 type Project = Database['public']['Tables']['projects']['Row'];
@@ -96,25 +97,8 @@ export default function WorkPage() {
       {/* Grungy Texture Overlay */}
       <div className="pointer-events-none fixed inset-0 z-0 opacity-10 mix-blend-overlay" style={{backgroundImage: 'url(https://www.transparenttextures.com/patterns/diamond-upholstery.png), url(https://www.transparenttextures.com/patterns/grunge-wall.png)'}} />
       
-      {/* Header */}
-      <header className="w-full bg-black/90 backdrop-blur-sm flex items-center justify-between px-4 md:px-8 py-6 border-b-2 border-[#232842] z-20 relative shadow-xl tracking-widest">
-        <Link
-          href="/"
-          className="text-3xl md:text-4xl font-black text-white select-none tracking-widest drop-shadow-lg hover:text-[#6a5cff] transition-colors duration-200 cursor-pointer"
-          style={{ fontFamily: 'var(--font-geist-sans)' }}
-        >
-          <span className="block sm:hidden">MK</span>
-          <span className="hidden sm:block">M Kusters</span>
-        </Link>
-        <nav className="flex gap-6">
-          <Link
-            href="/#contact"
-            className="text-white bg-transparent rounded px-5 py-2 font-bold text-lg hover:text-[#6a5cff] hover:bg-[#232842]/30 hover:scale-105 transition-all duration-200 shadow-sm tracking-wide cursor-pointer"
-          >
-            Contact
-          </Link>
-        </nav>
-      </header>
+      {/* Reusable Navbar Component */}
+      <Navbar />
 
       {/* Main Content */}
       <main className="flex-1 w-full max-w-7xl mx-auto px-6 md:px-4 py-16 relative z-10">
@@ -380,13 +364,8 @@ export default function WorkPage() {
         )}
       </main>
 
-      {/* Footer */}
-      <footer className="w-full py-8 bg-black/90 backdrop-blur-sm text-center text-gray-400 text-base border-t-2 border-[#232842]/40 mt-16 relative z-10 rounded-t-xl shadow-lg tracking-widest uppercase">
-        <p>&copy; {new Date().getFullYear()} Maud Kusters. All rights reserved.</p>
-        <div className="mt-2">
-          <AuthAwareAdminLink />
-        </div>
-      </footer>
+      {/* Reusable Footer Component */}
+      <Footer />
     </div>
   );
 }

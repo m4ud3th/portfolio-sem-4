@@ -1,8 +1,8 @@
 'use client';
 
-import Link from 'next/link';
+import Navbar from '@/components/Navbar';
 import ContactForm from '@/components/ContactForm';
-import AuthAwareAdminLink from '@/components/AuthAwareAdminLink';
+import Footer from '@/components/Footer';
 
 export default function ContactPage() {
   return (
@@ -18,23 +18,8 @@ export default function ContactPage() {
         <div className="absolute top-1/6 right-1/3 w-24 h-24 bg-[#6a5cff]/12 rounded-full blur-lg animate-bounce" style={{animationDelay: '2s', animationDuration: '4s'}}></div>
       </div>
       
-      {/* Header */}
-      <header className="w-full bg-black/90 backdrop-blur-sm flex items-center justify-between px-4 md:px-8 py-6 border-b-2 border-[#232842] z-20 relative shadow-xl tracking-widest">
-        <Link
-          href="/"
-          className="text-3xl md:text-4xl font-black text-white select-none tracking-widest drop-shadow-lg hover:text-[#6a5cff] transition-colors duration-200 cursor-pointer"
-          style={{ fontFamily: 'var(--font-geist-sans)' }}
-        >
-          <span className="block sm:hidden">MK</span>
-          <span className="hidden sm:block">M Kusters</span>
-        </Link>
-        <Link
-          href="/"
-          className="text-white bg-transparent rounded px-5 py-2 font-bold text-lg hover:text-[#6a5cff] hover:bg-[#232842]/30 transition-colors duration-200 shadow-sm tracking-wide cursor-pointer"
-        >
-          ← Back to Portfolio
-        </Link>
-      </header>
+      {/* Reusable Navbar Component */}
+      <Navbar />
 
       {/* Contact Content */}
       <main className="flex-1 w-full max-w-4xl mx-auto px-6 md:px-4 py-10 relative z-10">
@@ -55,13 +40,8 @@ export default function ContactPage() {
         </div>
       </main>
 
-      {/* Footer */}
-      <footer className="w-full py-8 bg-black/90 backdrop-blur-sm text-center text-gray-400 text-base border-t-2 border-[#232842]/40 mt-16 relative z-10 rounded-t-xl shadow-lg tracking-widest uppercase">
-        <p>&copy; {new Date().getFullYear()} Maud Kusters. All rights reserved.</p>
-        <div className="mt-2">
-          <AuthAwareAdminLink />
-        </div>
-      </footer>
+      {/* Reusable Footer Component */}
+      <Footer />
     </div>
   );
 }

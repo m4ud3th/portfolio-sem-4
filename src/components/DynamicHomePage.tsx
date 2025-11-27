@@ -6,7 +6,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { getProjectUrl } from '@/lib/utils/project';
 import { createClient } from '@/lib/supabase/client';
-import AuthAwareAdminLink from '@/components/AuthAwareAdminLink';
+import Footer from '@/components/Footer';
+import Navbar from '@/components/Navbar';
 import type { Database } from '@/lib/types/database.types';
 
 type Project = Database['public']['Tables']['projects']['Row'];
@@ -259,26 +260,14 @@ export default function DynamicHomePage({ projects: initialProjects }: DynamicHo
       
       {/* Animated Background Elements */}
       <div className="fixed inset-0 z-0 pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-32 h-32 bg-[#6a5cff]/5 rounded-full blur-xl animate-pulse"></div>
-        <div className="absolute top-3/4 right-1/4 w-24 h-24 bg-[#6a5cff]/10 rounded-full blur-lg animate-bounce" style={{animationDuration: '3s'}}></div>
-        <div className="absolute top-1/2 left-3/4 w-20 h-20 bg-[#232842]/30 rounded-full blur-md animate-pulse" style={{animationDelay: '1s'}}></div>
+        <div className="absolute top-1/4 left-1/4 w-40 h-40 bg-[#6a5cff]/15 rounded-full blur-xl animate-pulse"></div>
+        <div className="absolute top-3/4 right-1/4 w-32 h-32 bg-[#6a5cff]/20 rounded-full blur-lg animate-bounce" style={{animationDuration: '3s'}}></div>
+        <div className="absolute top-1/2 left-3/4 w-28 h-28 bg-[#232842]/40 rounded-full blur-md animate-pulse" style={{animationDelay: '1s'}}></div>
+        <div className="absolute top-1/6 right-1/3 w-24 h-24 bg-[#6a5cff]/12 rounded-full blur-lg animate-bounce" style={{animationDelay: '2s', animationDuration: '4s'}}></div>
       </div>
       
-      {/* Bold Band-style Header */}
-      <header className="w-full bg-black/90 backdrop-blur-sm flex items-center justify-between px-4 md:px-8 py-6 border-b-2 border-[#232842] z-20 relative shadow-xl tracking-widest">
-        <div className="flex items-center">
-          <HomeNavButton />
-        </div>
-        <nav className="flex items-center gap-6">
-          <WorkScrollButton />
-          <a
-            href="/contact"
-            className="text-white bg-transparent rounded px-5 py-2 font-bold text-lg hover:text-[#6a5cff] hover:bg-[#232842]/30 hover:scale-105 transition-all duration-200 shadow-sm tracking-wide cursor-pointer"
-          >
-            Contact
-          </a>
-        </nav>
-      </header>
+      {/* Reusable Navbar Component */}
+      <Navbar />
 
       {/* Hero Section - Big, Centered, Band-like */}
       <section className="flex flex-col items-center justify-center text-center w-full pt-24 pb-20 px-6 md:px-4 relative z-10 border-b-2 border-[#232842]/40 bg-gradient-to-b from-black/90 via-[#181b23]/80 to-transparent">
@@ -418,49 +407,12 @@ export default function DynamicHomePage({ projects: initialProjects }: DynamicHo
         </section>
       </main>
 
-      {/* Footer */}
-      <footer className="w-full py-8 bg-black/90 backdrop-blur-sm text-center text-gray-400 text-base border-t-2 border-[#232842]/40 mt-16 relative z-10 rounded-t-xl shadow-lg tracking-widest uppercase">
-        <p>&copy; {new Date().getFullYear()} Maud Kusters. All rights reserved.</p>
-        <div className="mt-2">
-          <AuthAwareAdminLink />
-        </div>
-      </footer>
+      {/* Reusable Footer Component */}
+      <Footer />
     </div>
   );
 }
 
-function HomeNavButton() {
-  const router = useRouter();
-  return (
-    <button
-      onClick={() => router.push("/")}
-      className="text-3xl md:text-4xl font-black text-white select-none tracking-widest drop-shadow-lg hover:text-[#6a5cff] hover:scale-105 transition-all duration-200 cursor-pointer ml-4"
-      style={{ fontFamily: 'var(--font-geist-sans)' }}
-      type="button"
-      aria-label="Go to home page"
-    >
-      <span className="block sm:hidden">MK</span>
-      <span className="hidden sm:block">MK</span>
-    </button>
-  );
-}
-
-function WorkScrollButton() {
-  const router = useRouter();
-  function handleClick(e: React.MouseEvent<HTMLButtonElement>) {
-    e.preventDefault();
-    router.push("/work");
-  }
-  return (
-    <button
-      onClick={handleClick}
-      className="text-white bg-transparent rounded px-5 py-2 font-bold text-lg hover:text-[#6a5cff] hover:bg-[#232842]/30 hover:scale-105 transition-all duration-200 shadow-sm tracking-wide cursor-pointer"
-      type="button"
-    >
-      Work
-    </button>
-  );
-}
 
 function ContactScrollButton() {
   const router = useRouter();
@@ -471,10 +423,35 @@ function ContactScrollButton() {
   return (
     <button
       onClick={handleClick}
-      className="inline-block px-8 py-3 rounded border-2 border-[#6a5cff] text-white font-bold bg-[#232842]/40 hover:bg-[#6a5cff]/50 hover:text-white hover:scale-105 hover:shadow-lg transition-all duration-200 text-lg shadow-lg tracking-wide uppercase cursor-pointer"
+      className="relative inline-block px-8 py-3 rounded border-2 border-[#6a5cff] text-white font-bold bg-[#232842]/40 hover:bg-[#6a5cff]/50 hover:text-white hover:scale-105 hover:shadow-lg transition-all duration-200 text-lg shadow-lg tracking-wide uppercase cursor-pointer overflow-hidden group"
       type="button"
     >
-      About Me
+      <span className="relative z-10">About Me</span>
+      {/* Shine effect */}
+      <span className="absolute inset-0 pointer-events-none">
+      <span className="block w-full h-full">
+        <span
+        className="absolute left-[-75%] top-0 w-[150%] h-full bg-gradient-to-r from-transparent via-white/30 to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-[shine-sweep_0.8s_cubic-bezier(0.4,0,0.2,1)_forwards]"
+        style={{ transform: "skewX(-20deg)" }}
+        />
+      </span>
+      </span>
+      <style jsx>{`
+      @keyframes shine-sweep {
+        0% {
+        left: -75%;
+        opacity: 0.2;
+        }
+        60% {
+        left: 100%;
+        opacity: 0.5;
+        }
+        100% {
+        left: 100%;
+        opacity: 0;
+        }
+      }
+      `}</style>
     </button>
   );
 }
