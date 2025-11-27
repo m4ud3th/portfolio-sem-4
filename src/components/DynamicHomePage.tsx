@@ -78,7 +78,6 @@ export default function DynamicHomePage({ projects: initialProjects }: DynamicHo
       const headerHeight = 80;
       const workSection = document.getElementById('work');
       const contactSection = document.getElementById('contact');
-      
       return [
         { name: 'top', position: 0 },
         { name: 'work', position: (workSection?.offsetTop || 0) - headerHeight },
@@ -86,35 +85,36 @@ export default function DynamicHomePage({ projects: initialProjects }: DynamicHo
       ];
     };
 
-    const getCurrentSection = (scrollTop: number) => {
-      const sections = getSections();
-      let currentSection = sections[0];
-      
-      for (const section of sections) {
-        if (scrollTop >= section.position - 100) {
-          currentSection = section;
-        }
-      }
-      
-      return currentSection;
-    };
-
-    // Removed unused getNextSection function
-
     const handleScroll = () => {
       if (isScrolling) return;
 
       const currentTime = Date.now();
       const scrollTop = window.scrollY;
-
-      // Calculate scroll speed (pixels per millisecond)
       const timeDiff = currentTime - lastScrollTime;
       const scrollDiff = Math.abs(scrollTop - lastScrollTop);
       const scrollSpeed = timeDiff > 0 ? scrollDiff / timeDiff : 0;
-
-      // Determine scroll direction
       const scrollingDown = scrollTop > lastScrollTop;
-      
+
+      // Snap to 'Featured Projects' if scrolling down from top
+      if (lastScrollTop === 0 && scrollingDown) {
+        const headerHeight = 80;
+        const workSection = document.getElementById('work');
+        if (workSection) {
+          const targetPosition = workSection.offsetTop - headerHeight;
+          isScrolling = true;
+          window.scrollTo({
+            top: targetPosition,
+            behavior: 'smooth'
+          });
+          setTimeout(() => {
+            isScrolling = false;
+          }, 800);
+          lastScrollTop = targetPosition;
+          lastScrollTime = Date.now();
+          return;
+        }
+      }
+
       // Detect quick scrolling (threshold: 2 pixels per millisecond)
       if (scrollSpeed > 2) {
         isQuickScrolling = true;
@@ -126,24 +126,17 @@ export default function DynamicHomePage({ projects: initialProjects }: DynamicHo
       lastScrollTop = scrollTop;
       lastScrollTime = currentTime;
 
-      // Don't snap if user is quickly scrolling
       if (isQuickScrolling) {
         return;
       }
 
-      // Clear existing timeout
       clearTimeout(scrollTimeout);
-
-      // Set new timeout for smooth snap
       scrollTimeout = setTimeout(() => {
         if (!isQuickScrolling && !isScrolling) {
           const sections = getSections();
           const currentScrollTop = window.scrollY;
-          
-          // Find the closest section we're near
           let closestSection = sections[0];
           let minDistance = Math.abs(currentScrollTop - sections[0].position);
-          
           for (const section of sections) {
             const distance = Math.abs(currentScrollTop - section.position);
             if (distance < minDistance) {
@@ -151,12 +144,8 @@ export default function DynamicHomePage({ projects: initialProjects }: DynamicHo
               closestSection = section;
             }
           }
-          
-          // Determine if we should snap to next/previous section based on scroll direction
           const currentIndex = sections.findIndex(s => s.name === closestSection.name);
           let targetSection = closestSection;
-          
-          // If we're between sections, decide which one to snap to
           if (minDistance > 50) {
             if (scrollingDown && currentIndex < sections.length - 1) {
               targetSection = sections[currentIndex + 1];
@@ -164,16 +153,12 @@ export default function DynamicHomePage({ projects: initialProjects }: DynamicHo
               targetSection = sections[currentIndex - 1];
             }
           }
-          
-          // Snap to target section if we're not already there
           if (Math.abs(currentScrollTop - targetSection.position) > 20) {
             isScrolling = true;
             window.scrollTo({
               top: targetSection.position,
               behavior: 'smooth'
             });
-            
-            // Reset scrolling flag after animation
             setTimeout(() => {
               isScrolling = false;
             }, 800);
