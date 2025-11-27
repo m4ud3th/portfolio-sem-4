@@ -95,20 +95,29 @@ export default function DynamicHomePage({ projects: initialProjects }: DynamicHo
       const scrollSpeed = timeDiff > 0 ? scrollDiff / timeDiff : 0;
       const scrollingDown = scrollTop > lastScrollTop;
 
-      // Snap to 'Featured Projects' if scrolling down from top
+      // Snap to 'Featured Projects' if scrolling down from top (slow snap)
       if (lastScrollTop === 0 && scrollingDown) {
         const headerHeight = 80;
         const workSection = document.getElementById('work');
         if (workSection) {
           const targetPosition = workSection.offsetTop - headerHeight;
           isScrolling = true;
-          window.scrollTo({
-            top: targetPosition,
-            behavior: 'smooth'
-          });
-          setTimeout(() => {
-            isScrolling = false;
-          }, 800);
+          // Slow snap: use setInterval to scroll smoothly in steps
+          const step = 10;
+          let current = window.scrollY;
+          const interval = setInterval(() => {
+            if (current < targetPosition) {
+              current = Math.min(current + step, targetPosition);
+              window.scrollTo({ top: current });
+              if (current >= targetPosition) {
+                clearInterval(interval);
+                isScrolling = false;
+              }
+            } else {
+              clearInterval(interval);
+              isScrolling = false;
+            }
+          }, 10);
           lastScrollTop = targetPosition;
           lastScrollTime = Date.now();
           return;
