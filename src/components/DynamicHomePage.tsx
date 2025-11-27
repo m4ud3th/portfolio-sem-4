@@ -372,6 +372,15 @@ export default function DynamicHomePage({ projects: initialProjects }: DynamicHo
               </div>
             ))}
           </div>
+          {/* See More Button */}
+          <div className="flex justify-center mt-10">
+            <Link
+              href="/work"
+              className="inline-block px-8 py-3 rounded border-2 border-[#6a5cff] text-white font-bold bg-[#232842]/40 hover:bg-[#6a5cff]/67 hover:text-white hover:scale-105 transition-all duration-200 text-lg shadow-lg tracking-wide uppercase cursor-pointer"
+            >
+              See More
+            </Link>
+          </div>
         </section>
 
         {/* Contact Section */}
