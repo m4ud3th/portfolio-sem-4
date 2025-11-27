@@ -99,19 +99,7 @@ export default function DynamicHomePage({ projects: initialProjects }: DynamicHo
       return currentSection;
     };
 
-    const getNextSection = (scrollTop: number, scrollingDown: boolean) => {
-      const sections = getSections();
-      const currentSection = getCurrentSection(scrollTop);
-      const currentIndex = sections.findIndex(s => s.name === currentSection.name);
-      
-      if (scrollingDown && currentIndex < sections.length - 1) {
-        return sections[currentIndex + 1];
-      } else if (!scrollingDown && currentIndex > 0) {
-        return sections[currentIndex - 1];
-      }
-      
-      return currentSection;
-    };
+    // Removed unused getNextSection function
 
     const handleScroll = () => {
       if (isScrolling) return;

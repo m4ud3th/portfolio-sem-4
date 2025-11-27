@@ -9,15 +9,13 @@ export default function SignupPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [fullName, setFullName] = useState('');
-  const [loading, setLoading] = useState(false);
+  // Removed unused loading state
   const [error, setError] = useState('');
-  const [message, setMessage] = useState('');
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const router = useRouter();
+  const [message] = useState(''); // message is only read
+  // Removed unused router
   
   // Check if Supabase is configured
-  const isConfigured = isSupabaseConfigured();
-  const supabase = isConfigured ? createClient() : null;
+  // Removed unused supabase client
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
