@@ -94,11 +94,16 @@ export default function WorkPage() {
 
   return (
     <div className="min-h-screen font-sans flex flex-col bg-gradient-to-br from-black via-[#181a20] to-[#232842] relative overflow-x-hidden">
-      {/* Grungy Texture Overlay */}
+      /* Grungy Texture Overlay */
       <div className="pointer-events-none fixed inset-0 z-0 opacity-10 mix-blend-overlay" style={{backgroundImage: 'url(https://www.transparenttextures.com/patterns/diamond-upholstery.png), url(https://www.transparenttextures.com/patterns/grunge-wall.png)'}} />
-      
+
       {/* Reusable Navbar Component */}
-      <Navbar />
+      <div className="fixed top-0 left-0 w-full z-50">
+        <Navbar />
+      </div>
+
+      {/* Spacer for fixed navbar height */}
+      <div className="h-[72px] md:h-[80px]" />
 
       {/* Main Content */}
       <main className="flex-1 w-full max-w-7xl mx-auto px-6 md:px-4 py-16 relative z-10">
