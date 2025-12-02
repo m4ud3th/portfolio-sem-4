@@ -1,8 +1,7 @@
 "use client";
 
 import { useState } from 'react';
-import { createClient, isSupabaseConfigured } from '@/lib/supabase/client';
-import { useRouter } from 'next/navigation';
+// Removed unused imports
 import Link from 'next/link';
 
 export default function SignupPage() {

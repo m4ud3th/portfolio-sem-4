@@ -53,18 +53,12 @@ export default function DynamicHomePage({ projects: initialProjects }: DynamicHo
   useEffect(() => {
     let lastScrollTop = 0;
     let lastScrollTime = Date.now();
+    // Use let for scrollTimeout because it is reassigned
     let scrollTimeout: NodeJS.Timeout | undefined = undefined;
     let isQuickScrolling = false;
     let isScrolling = false;
 
-    const getSections = () => {
-      const headerHeight = 80;
-      const workSection = document.getElementById('work');
-      return [
-        { name: 'top', position: 0 },
-        { name: 'work', position: (workSection?.offsetTop || 0) - headerHeight }
-      ];
-    };
+    // Removed unused getSections function
 
     const handleScroll = () => {
       if (isScrolling) return;
