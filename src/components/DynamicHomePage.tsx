@@ -47,24 +47,7 @@ export default function DynamicHomePage({ projects: initialProjects }: DynamicHo
     fetchProjects();
   }, []);
 
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const hash = window.location.hash;
-      if (hash === "#work") {
-        const el = document.getElementById(hash.substring(1));
-        if (el) {
-          const headerHeight = 80; // Approximate header height
-          const elementPosition = el.offsetTop;
-          const offsetPosition = elementPosition - headerHeight;
-          
-          window.scrollTo({
-            top: offsetPosition,
-            behavior: "smooth"
-          });
-        }
-      }
-    }
-  }, []);
+  // Removed automatic scroll to featured projects on page load
 
   // Full-page snap scrolling between sections
   useEffect(() => {
