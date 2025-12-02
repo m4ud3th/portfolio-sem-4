@@ -53,18 +53,16 @@ export default function DynamicHomePage({ projects: initialProjects }: DynamicHo
   useEffect(() => {
     let lastScrollTop = 0;
     let lastScrollTime = Date.now();
-    let scrollTimeout: NodeJS.Timeout;
+    let scrollTimeout: NodeJS.Timeout | undefined = undefined;
     let isQuickScrolling = false;
     let isScrolling = false;
 
     const getSections = () => {
       const headerHeight = 80;
       const workSection = document.getElementById('work');
-      const contactSection = document.getElementById('contact');
       return [
         { name: 'top', position: 0 },
-        { name: 'work', position: (workSection?.offsetTop || 0) - headerHeight },
-        { name: 'contact', position: (contactSection?.offsetTop || 0) - headerHeight }
+        { name: 'work', position: (workSection?.offsetTop || 0) - headerHeight }
       ];
     };
 
@@ -78,7 +76,7 @@ export default function DynamicHomePage({ projects: initialProjects }: DynamicHo
       const scrollSpeed = timeDiff > 0 ? scrollDiff / timeDiff : 0;
       const scrollingDown = scrollTop > lastScrollTop;
 
-      // Snap to 'Featured Projects' if scrolling down from top (slow snap)
+      // Snap to 'Featured Projects' ONLY if scrolling down from top
       if (lastScrollTop === 0 && scrollingDown) {
         const headerHeight = 80;
         const workSection = document.getElementById('work');
@@ -123,40 +121,8 @@ export default function DynamicHomePage({ projects: initialProjects }: DynamicHo
       }
 
       clearTimeout(scrollTimeout);
-      scrollTimeout = setTimeout(() => {
-        if (!isQuickScrolling && !isScrolling) {
-          const sections = getSections();
-          const currentScrollTop = window.scrollY;
-          let closestSection = sections[0];
-          let minDistance = Math.abs(currentScrollTop - sections[0].position);
-          for (const section of sections) {
-            const distance = Math.abs(currentScrollTop - section.position);
-            if (distance < minDistance) {
-              minDistance = distance;
-              closestSection = section;
-            }
-          }
-          const currentIndex = sections.findIndex(s => s.name === closestSection.name);
-          let targetSection = closestSection;
-          if (minDistance > 50) {
-            if (scrollingDown && currentIndex < sections.length - 1) {
-              targetSection = sections[currentIndex + 1];
-            } else if (!scrollingDown && currentIndex > 0) {
-              targetSection = sections[currentIndex - 1];
-            }
-          }
-          if (Math.abs(currentScrollTop - targetSection.position) > 20) {
-            isScrolling = true;
-            window.scrollTo({
-              top: targetSection.position,
-              behavior: 'smooth'
-            });
-            setTimeout(() => {
-              isScrolling = false;
-            }, 800);
-          }
-        }
-      }, 150);
+      // Remove snap logic for scrolling down from featured projects to bottom
+      // Only snap from top to featured projects
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
