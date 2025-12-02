@@ -53,8 +53,8 @@ export default function DynamicHomePage({ projects: initialProjects }: DynamicHo
   useEffect(() => {
     let lastScrollTop = 0;
     let lastScrollTime = Date.now();
-    // Use let for scrollTimeout because it is reassigned
-    let scrollTimeout: NodeJS.Timeout | undefined = undefined;
+    // Use const for scrollTimeout because it is never reassigned
+    const scrollTimeout: NodeJS.Timeout | undefined = undefined;
     let isQuickScrolling = false;
     let isScrolling = false;
 
