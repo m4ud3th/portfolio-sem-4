@@ -6,7 +6,7 @@ import Link from "next/link";
 export default function Navbar() {
   const router = useRouter();
   return (
-    <header className="w-full bg-black/90 backdrop-blur-sm flex items-center justify-between px-4 md:px-8 py-6 border-b-2 border-[#232842] z-20 relative shadow-xl tracking-widest">
+    <header className="w-full bg-gradient-to-br from-black/95 via-[#181a20]/90 to-[#232842]/85 backdrop-blur-md flex items-center justify-between px-4 md:px-8 py-6 border-b-2 border-[#232842] z-20 relative shadow-xl tracking-widest">
       <div className="flex items-center">
         <button
           onClick={() => router.push("/")}
