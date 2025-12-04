@@ -42,7 +42,7 @@ export default function AboutPage() {
     intro_text: "Hi! I'm Maud Kusters, a college student passionate about web development and digital design.",
     paragraph_two: "I'm currently studying and building my skills in modern web technologies. I love creating beautiful, functional websites that solve real problems and provide great user experiences.",
     paragraph_three: "When I'm not coding, you can find me exploring new design trends, learning new frameworks, or working on personal projects that challenge me to grow as a developer.",
-    skills: ['Git', 'Next.js', 'Node.js', 'React', 'Supabase', 'Tailwind CSS', 'TypeScript']
+    skills: ['Git', 'Next.js', 'Node.js', 'React', 'Supabase', 'Tailwind CSS', 'TypeScript'] as string[] | string
   };
   return (
     <div className="min-h-screen font-sans flex flex-col bg-black relative overflow-x-hidden">
@@ -91,13 +91,19 @@ export default function AboutPage() {
               <div className="pt-6 border-t border-white/10">
                 <h2 className="text-2xl font-bold text-white mb-4 tracking-wide uppercase">Skills & Technologies</h2>
                 <div className="flex flex-wrap gap-2">
-                  {displayContent.skills.map((skill, index) => (
-                  <span 
-                    key={index}
-                    className="px-3 py-2 bg-white/10 backdrop-blur-sm border border-white/20 text-gray-300 rounded hover:bg-[#6a5cff]/30 hover:text-white hover:border-[#6a5cff]/50 transition-all duration-200 font-medium"
-                  >
-                    {skill}
-                  </span>
+                  {(
+                    Array.isArray(displayContent.skills)
+                      ? displayContent.skills
+                      : (typeof displayContent.skills === 'string' && displayContent.skills
+                        ? displayContent.skills.split(',').map((s: string) => s.trim())
+                        : [])
+                  ).map((skill: string, index: number) => (
+                    <span
+                      key={index}
+                      className="px-3 py-2 bg-white/10 backdrop-blur-sm border border-white/20 text-gray-300 rounded hover:bg-[#6a5cff]/30 hover:text-white hover:border-[#6a5cff]/50 transition-all duration-200 font-medium"
+                    >
+                      {skill}
+                    </span>
                   ))}
                 </div>
               </div>

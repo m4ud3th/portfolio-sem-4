@@ -84,7 +84,7 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
           intro_text: data.intro_text,
           paragraph_two: data.paragraph_two,
           paragraph_three: data.paragraph_three,
-          skills: data.skills.join(', '),
+          skills: typeof data.skills === 'string' ? data.skills : Array.isArray(data.skills) ? data.skills.join(', ') : '',
         });
       } else {
         // Set defaults if no content exists
@@ -282,7 +282,7 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
       intro_text: aboutForm.intro_text.trim(),
       paragraph_two: aboutForm.paragraph_two.trim(),
       paragraph_three: aboutForm.paragraph_three.trim(),
-      skills: aboutForm.skills.split(',').map(s => s.trim()).filter(Boolean),
+      skills: aboutForm.skills,
       user_id: user.id,
     };
 

@@ -146,7 +146,7 @@ create table if not exists public.about_me (
   intro_text text not null,
   paragraph_two text not null,
   paragraph_three text not null,
-  skills text[] not null default '{}',
+  skills text not null,
   created_at timestamp with time zone default timezone('utc'::text, now()) not null,
   updated_at timestamp with time zone default timezone('utc'::text, now()) not null,
   user_id uuid references auth.users(id) on delete cascade not null
