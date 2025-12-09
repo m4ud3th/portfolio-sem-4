@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Analytics } from "@vercel/analytics/react";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Staatliches } from "next/font/google";
 import ClientAuthProvider from "@/components/ClientAuthProvider";
@@ -39,6 +40,7 @@ export default function RootLayout({
         <ClientAuthProvider>
           {children}
         </ClientAuthProvider>
+        <Analytics />
       </body>
     </html>
   );
